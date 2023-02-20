@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	let buttonChangePassword = document.getElementById("change-password-button");
 	let buttonManageAccounts = document.getElementById("manage-accounts-button");
+	let buttonNewAccount = document.getElementById("new-account-button");
 
 	let buttonImportTokens = document.getElementById("import-tokens-button");
 
@@ -1049,6 +1050,64 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	});
 
+	buttonNewAccount.addEventListener("click", () => {
+		let popupHeight = 240;
+		let adjustedHeight = popupHeight + 20;
+
+		divPopupWrapper.style.height = adjustedHeight + "px";
+		divPopupWrapper.style.top = "calc(50% - " + adjustedHeight + "px / 2)";
+
+		popup("Manage Accounts", '<input id="popup-username" placeholder="Username..." type="text"><input type="password" id="popup-password" placeholder="Password..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
+
+		let inputUsername = document.getElementById("popup-username");
+		let inputPassword = document.getElementById("popup-password");
+
+		document.getElementById("popup-cancel").addEventListener("click", () => {
+			hidePopup();
+		});
+
+		document.getElementById("popup-confirm").addEventListener("click", () => {
+			let username = inputUsername.value;
+			let password = inputPassword.value;
+
+			if (!empty(username)) {
+				if (username.toLowerCase().trim() !== "admin") {
+					createAccountNoAdmin(username, password).then(response => {
+						if ("error" in response) {
+							Notify.error({
+								title: "Error",
+								description: response.error
+							});
+						} else {
+							Notify.success({
+								title: "Account Created",
+								description: response.message
+							});
+
+							hidePopup();
+						}
+					}).catch(e => {
+						console.log(e);
+						Notify.error({
+							title: "Error",
+							description: "Couldn't create account."
+						});
+					});
+				} else {
+					Notify.error({
+						title: "Error",
+						description: "The admin account cannot be modified."
+					});
+				}
+			} else {
+				Notify.error({
+					title: "Error",
+					description: "Please fill out the input field."
+				});
+			}
+		});
+	});
+
 	buttonImportTokens.addEventListener("click", () => {
 		let address = inputETHAddress.value;
 
@@ -1244,7 +1303,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 									hidePopup();
 
 									setTimeout(() => {
-										let html = '<span class="message">Please scan the QR code with the Cryptofolio mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
+										let html = '<span class="message">Please scan the QR code with the CENTCEX mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
 				
 										popup("QR Login Code", html, "400px", "540px");
 

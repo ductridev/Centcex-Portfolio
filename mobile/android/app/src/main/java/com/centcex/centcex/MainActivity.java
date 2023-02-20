@@ -1,4 +1,4 @@
-package com.xtrendence.cryptofolio;
+package com.centcex.centcex;
 
 import android.os.Bundle;
 

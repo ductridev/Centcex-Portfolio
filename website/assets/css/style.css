@@ -69,7 +69,7 @@ input[type=number] {
 	z-index:99;
 }
 .popup-overlay {
-	z-index:97;
+	z-index:98;
 	opacity:0;
 	transition:opacity 0.25s;
 	background:rgba(0,0,0,0.95);
@@ -322,17 +322,36 @@ input[type=number] {
 	z-index:98;
 	opacity:1;
 	background:var(--main-first);
+	text-align: center;
 }
-.login-wrapper div {
+.login-wrapper .login-banner{
+	display: flex;
+	margin-top: calc(280px / 2 - 36px);
+}
+.login-wrapper .login-banner img{
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.login-wrapper .login-banner-text{
+	margin: 0px 10px;
+	display: inline-block;
+}
+.login-wrapper .login-banner-text span{
+	font-size: initial; 
+	display: block;
+}
+.login-wrapper .login-form {
 	position:absolute;
 	width:calc(300px - 40px);
 	height:220px;
 	padding:20px;
-	top:calc(50% - 220px / 2 - 36px);
+	/* top:calc(50% - 280px / 2 - 36px); */
 	left:calc(50% - 300px / 2);
 	background:var(--main-third);
 	box-shadow:var(--shadow-smooth);
 	border-radius:var(--border-radius);
+	margin-top: 36px;
 }
 .login-wrapper input {
 	display:block;

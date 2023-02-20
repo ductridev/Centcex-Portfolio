@@ -14,6 +14,12 @@ export default styles = StyleSheet.create({
 	containerDark: {
 		backgroundColor:globalColors["Dark"].mainSecond
 	},
+	bannerWrapper: {
+		justifyContent:"center",
+		flexDirection:"column",
+		alignItems:"center",
+		marginBottom: 10
+	},
 	formWrapper: {
 		justifyContent:"center",
 		flexDirection:"column",

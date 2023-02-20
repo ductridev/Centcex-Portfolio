@@ -64,9 +64,9 @@ export default function Settings({ navigation, route }) {
 				<View style={[styles.modalWrapper, styles[`modalWrapper${theme}`]]}>
 					<View stlye={[styles.modal, styles[`modal${theme}`]]}>
 						<View style={[styles.buttonWrapper, styles.buttonWrapperCenter]}>
-							<TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { clearNoAPIData()}}>
+							{/* <TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { clearNoAPIData()}}>
 								<Text style={styles.text}>Delete No-API Data</Text>
-							</TouchableOpacity>
+							</TouchableOpacity> */}
 							<TouchableOpacity style={[styles.button, styles[`button${theme}`], styles.buttonCancel]} onPress={() => { hideModal()}}>
 								<Text style={styles.text}>Cancel</Text>
 							</TouchableOpacity>
@@ -202,7 +202,7 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Import ETH Tokens</Text>
 				<View style={[styles.sectionDescriptionWrapper, styles[`sectionDescriptionWrapper${theme}`], { marginBottom:20 }]}>
-					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>Using Ethplorer, the current balance of the tokens in your ETH wallet can be imported into Cryptofolio. Your Ethereum token holdings would either get added to your current holdings, or would replace them depending on which option you choose. Tokens that aren't listed on CoinGecko would not get added.</Text>
+					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>Using Ethplorer, the current balance of the tokens in your ETH wallet can be imported into CENTCEX. Your Ethereum token holdings would either get added to your current holdings, or would replace them depending on which option you choose. Tokens that aren't listed on CoinGecko would not get added.</Text>
 				</View>
 				<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder="ETH Address..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setEthAddress(value)}} autoCapitalize="none"/>
 				<View style={styles.container}>
@@ -294,7 +294,7 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`], { marginBottom:60 }]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Donate</Text>
 				<View style={[styles.sectionDescriptionWrapper, styles[`sectionDescriptionWrapper${theme}`]]}>
-					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>If you'd like to donate, then please feel free to do so, it'd be much appreciated. However, I don't want you to feel obliged to do so, and there are no perks for it. If you decide to donate, please contact me afterwards so I can actually thank you, and I'd love to hear about any ideas you may have for Cryptofolio. If they're within the scope of the project, I'll probably implement them.</Text>
+					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>If you'd like to donate, then please feel free to do so, it'd be much appreciated. However, I don't want you to feel obliged to do so, and there are no perks for it. If you decide to donate, please contact me afterwards so I can actually thank you, and I'd love to hear about any ideas you may have for CENTCEX. If they're within the scope of the project, I'll probably implement them.</Text>
 				</View>
 				<View style={styles.container}>
 					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`]]} onPress={() => { copyAddress("ADA")}}>

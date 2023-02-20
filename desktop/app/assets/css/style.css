@@ -408,16 +408,34 @@ input[type=number] {
 	opacity:1;
 	background:var(--main-first);
 }
-.login-wrapper div {
+.login-wrapper .login-banner{
+	display: flex;
+	margin-top: calc(280px / 2 - 36px);
+}
+.login-wrapper .login-banner img{
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.login-wrapper .login-banner-text{
+	display: flex;
+}
+.login-wrapper .login-banner-text span{
+	font-size: initial;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-wrapper .login-form {
 	position:absolute;
 	width:calc(300px - 40px);
-	height:280px;
+	height:220px;
 	padding:20px;
-	top:calc(50% - 280px / 2 - 36px);
+	/* top:calc(50% - 280px / 2 - 36px); */
 	left:calc(50% - 300px / 2);
 	background:var(--main-third);
 	box-shadow:var(--shadow-smooth);
 	border-radius:var(--border-radius);
+	margin-top: 36px;
 }
 .login-wrapper input {
 	display:block;

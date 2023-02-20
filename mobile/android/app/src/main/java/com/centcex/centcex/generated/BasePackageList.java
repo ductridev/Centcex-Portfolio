@@ -1,4 +1,4 @@
-package com.xtrendence.cryptofolio.generated;
+package com.centcex.centcex.generated;
 
 import java.util.Arrays;
 import java.util.List;

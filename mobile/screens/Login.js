@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Dimensions, Linking, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
@@ -19,7 +19,7 @@ const screenHeight = Dimensions.get("screen").height;
 export default function Login({ navigation, route }) {
 	const { theme } = React.useContext(ThemeContext);
 
-	const [url, setUrl] = React.useState();
+	const [url, setUrl] = React.useState("https://app.centcex.finance/api/");
 	const [username, setUsername] = React.useState();
 	const [password, setPassword] = React.useState();
 	const [showCamera, setShowCamera] = React.useState(false);
@@ -31,7 +31,7 @@ export default function Login({ navigation, route }) {
 			checkSession();
 			setShowCamera(false);
 		});
-		
+
 		navigation.addListener("blur", () => {
 			setShowCamera(false);
 		});
@@ -39,34 +39,40 @@ export default function Login({ navigation, route }) {
 
 	return (
 		<View style={[styles.container, styles[`container${theme}`]]}>
-			{ !showCamera && 
+			<View>
+				<Image style={{ height: 100, justifyContent: "center", alignItems: "center", resizeMode: 'contain' }} source={require('../assets/Banner.png')} />
+				{/* <Text style={{ justifyContent: "center", alignItems: "center", marginBottom: 20, textAlign: 'center' }}>Stay on top of your portfolio Centcex's free crypto portfolio tracker! Track your crypto assets now.</Text> */}
+			</View>
+			{!showCamera &&
 				<View style={styles.formWrapper}>
-					<TextInput placeholder="API URL..." onChangeText={(value) => setUrl(value)} value={url} style={[styles.input, styles[`input${theme}`]]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
+					<TextInput placeholder="API URL..." onChangeText={(value) => setUrl(value)} value={url} style={[styles.input, styles[`input${theme}`], { display: 'none' }]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
 					<TextInput placeholder="Username..." onChangeText={(value) => setUsername(value)} value={username} style={[styles.input, styles[`input${theme}`]]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
 					<TextInput placeholder="Password..." secureTextEntry={!empty(password)} value={password} onChangeText={(value) => setPassword(value)} style={[styles.input, styles[`input${theme}`]]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none"></TextInput>
 					<TouchableOpacity onPress={() => attemptLogin()}>
-						<LinearGradient colors={[globalColors[theme].accentFirst, globalColors[theme].accentSecond]} style={[styles.button, { width:100 }]} useAngle={true} angle={45}>
+						<LinearGradient colors={[globalColors[theme].accentFirst, globalColors[theme].accentSecond]} style={[styles.button, { width: 100 }]} useAngle={true} angle={45}>
 							<Text style={styles.text}>Login</Text>
 						</LinearGradient>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => loginNoAPI()}>
-						<LinearGradient colors={globalColors[theme].purpleGradient} style={[styles.button, { marginTop:20, width:150 }]} useAngle={true} angle={45}>
-							<Text style={styles.text}>No-API Mode</Text>
+
+					<TouchableOpacity onPress={() => Linking.openURL("https://app.centcex.finance/")}>
+						<LinearGradient colors={globalColors[theme].purpleGradient} style={[styles.button, { marginTop: 20 }]} useAngle={true} angle={45}>
+							<Text style={styles.text}>Create Account</Text>
 						</LinearGradient>
 					</TouchableOpacity>
+
 					<TouchableOpacity onPress={() => setShowCamera(true)}>
-						<LinearGradient colors={globalColors[theme].atlasGradient} style={[styles.button, { marginTop:20, width:150 }]} useAngle={true} angle={45}>
+						<LinearGradient colors={globalColors[theme].atlasGradient} style={[styles.button, { marginTop: 20, width: 150 }]} useAngle={true} angle={45}>
 							<Text style={styles.text}>Scan QR Code</Text>
 						</LinearGradient>
 					</TouchableOpacity>
 				</View>
 			}
-			{ showCamera &&
+			{showCamera &&
 				<View style={styles.cameraWrapper}>
-					<QRCodeScanner 
+					<QRCodeScanner
 						reactivate={true}
-						onRead={(e) => processCode(e.data)} 
-						flashMode={RNCamera.Constants.FlashMode.off} 
+						onRead={(e) => processCode(e.data)}
+						flashMode={RNCamera.Constants.FlashMode.off}
 						topContent={
 							<View style={styles.cameraTextWrapper}>
 								<Text style={styles.cameraText}>You can only use a QR code once before having to generate a new one.</Text>
@@ -74,7 +80,7 @@ export default function Login({ navigation, route }) {
 						}
 						bottomContent={
 							<TouchableOpacity onPress={() => setShowCamera(false)}>
-								<LinearGradient colors={globalColors[theme].atlasGradient} style={[styles.button, styles.cameraButton, { marginTop:20 }]} useAngle={true} angle={45}>
+								<LinearGradient colors={globalColors[theme].atlasGradient} style={[styles.button, styles.cameraButton, { marginTop: 20 }]} useAngle={true} angle={45}>
 									<Text style={styles.text}>Close Camera</Text>
 								</LinearGradient>
 							</TouchableOpacity>
@@ -82,13 +88,13 @@ export default function Login({ navigation, route }) {
 					/>
 				</View>
 			}
-			<FlashMessage position="top" hideStatusBar={true} floating={true}/>
-			<StatusBar style={theme === "Dark" ? "light" : "dark"}/>
+			<FlashMessage position="top" hideStatusBar={true} floating={true} />
+			<StatusBar style={theme === "Dark" ? "light" : "dark"} />
 		</View>
 	);
 
 	async function processCode(data) {
-		if(data.includes("!")) {
+		if (data.includes("!")) {
 			let parts = data.split("!");
 
 			let token = parts[0];
@@ -98,7 +104,7 @@ export default function Login({ navigation, route }) {
 			await AsyncStorage.setItem("token", token);
 			await AsyncStorage.setItem("api", api);
 			await AsyncStorage.setItem("username", username);
-			
+
 			checkSession();
 		} else {
 			showMessage({
@@ -115,7 +121,7 @@ export default function Login({ navigation, route }) {
 
 		let validPages = ["Dashboard", "Market", "Holdings", "Settings"];
 		let page = await AsyncStorage.getItem("defaultPage");
-		if(empty(page) || !validPages.includes(page)) {
+		if (empty(page) || !validPages.includes(page)) {
 			navigation.navigate("Dashboard");
 		} else {
 			navigation.navigate(page);
@@ -123,7 +129,7 @@ export default function Login({ navigation, route }) {
 	}
 
 	async function attemptLogin(token) {
-		if(empty(token)) {
+		if (empty(token)) {
 			login(url, username, password).then(async response => {
 				let token = response.token;
 
@@ -137,7 +143,7 @@ export default function Login({ navigation, route }) {
 
 				let validPages = ["Dashboard", "Market", "Holdings", "Settings"];
 				let page = await AsyncStorage.getItem("defaultPage");
-				if(empty(page) || !validPages.includes(page)) {
+				if (empty(page) || !validPages.includes(page)) {
 					navigation.navigate("Dashboard");
 				} else {
 					navigation.navigate(page);
@@ -152,7 +158,7 @@ export default function Login({ navigation, route }) {
 			});
 		} else {
 			verifySession(token).then(async response => {
-				if(response.valid) {
+				if (response.valid) {
 					await AsyncStorage.removeItem("NoAPIMode");
 
 					await AsyncStorage.setItem("username", response.username);
@@ -162,7 +168,7 @@ export default function Login({ navigation, route }) {
 
 					let validPages = ["Dashboard", "Market", "Holdings", "Activity", "Settings"];
 					let page = await AsyncStorage.getItem("defaultPage");
-					if(empty(page) || !validPages.includes(page)) {
+					if (empty(page) || !validPages.includes(page)) {
 						navigation.navigate("Dashboard");
 					} else {
 						navigation.navigate(page);
@@ -184,7 +190,7 @@ export default function Login({ navigation, route }) {
 			setUrl(result);
 
 			AsyncStorage.getItem("token").then(result => {
-				if(!empty(result)) {
+				if (!empty(result)) {
 					attemptLogin(result);
 				}
 			}).catch(error => {

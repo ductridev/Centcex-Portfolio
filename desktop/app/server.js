@@ -15,7 +15,7 @@ const store = new Store();
 
 app.requestSingleInstanceLock();
 app.disableHardwareAcceleration();
-app.name = "Cryptofolio";
+app.name = "CENTCEX";
 
 app.on("ready", function() {
 	const debugMode = false;

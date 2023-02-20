@@ -1,6 +1,6 @@
 {
   "name": "Cryptofolio",
-  "version": "2.2.0",
+  "version": "1.0.0",
   "description": "A cryptocurrency portfolio application.",
   "main": "app/server.js",
   "scripts": {
@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/Xtrendence/Cryptofolio#readme",
   "build": {
-    "appId": "com.xtrendence.cryptofolio",
+    "productName": "CENTCEX",
+    "appId": "com.centcex.centcex",
     "asar": true,
     "mac": {
       "category": "public.app-category.finance"
@@ -38,8 +39,12 @@
     }
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
     "electron": "^12.0.2",
-    "electron-builder": "^22.10.5"
+    "electron-builder": "^22.14.13"
   },
   "dependencies": {
     "ejs": "^3.1.5",
