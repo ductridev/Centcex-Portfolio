@@ -125,7 +125,7 @@
 		function fetchCoins() {
 			if(!file_exists($this->coinsFile) || empty(file_get_contents($this->coinsFile)) || time() - 3600 > filemtime($this->coinsFile)) {
 				$pairs = array();
-				$coins = json_decode(file_get_contents("https://api.coingecko.com/api/v3/coins/list"), true);
+				$coins = json_decode(file_get_contents("https://api.coingecko.com/api/v3/coins/list?unique_id=".generateRandomString()), true);
 				foreach($coins as $coin) {
 					$symbol = strtolower($coin["symbol"]);
 					$pair = array($symbol => $coin["id"]);
@@ -204,4 +204,12 @@
 			return (bool)strtotime($date);
 		}
 	}
-?>
+	function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[random_int(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}

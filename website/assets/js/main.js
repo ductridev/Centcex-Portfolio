@@ -927,7 +927,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			divPopupWrapper.style.height = adjustedHeight + "px";
 			divPopupWrapper.style.top = "calc(50% - " + adjustedHeight + "px / 2)";
 
-			popup("Manage Accounts", '<div id="popup-list" class="popup-list"></div><div id="popup-choice"><button id="popup-create" data-value="create" class="choice active">Create</button><button id="popup-delete" data-value="delete" class="choice">Delete</button></div><input id="popup-username" placeholder="Username..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
+			popup("Create Accounts", '<div id="popup-list" class="popup-list"></div><div id="popup-choice"><button id="popup-create" data-value="create" class="choice active">Create</button><button id="popup-delete" data-value="delete" class="choice">Delete</button></div><input id="popup-username" placeholder="Username..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
 
 			let divPopupList = document.getElementById("popup-list");
 
@@ -1037,7 +1037,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		divPopupWrapper.style.height = adjustedHeight + "px";
 		divPopupWrapper.style.top = "calc(50% - " + adjustedHeight + "px / 2)";
 
-		popup("Manage Accounts", '<input id="popup-username" placeholder="Username..." type="text"><input type="password" id="popup-password" placeholder="Password..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
+		popup("Create Account", '<input id="popup-username" placeholder="Username..." type="text"><input type="password" id="popup-password" placeholder="Password..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
 
 		let inputUsername = document.getElementById("popup-username");
 		let inputPassword = document.getElementById("popup-password");
@@ -1122,25 +1122,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 					let token = tokens[key];
 					let info = token.tokenInfo;
 					let symbol = info.symbol;
-					if ("coingecko" in info) {
-						let balance = token.balance;
-						let string = balance.toFixed(0);
-						let decimals = parseInt(info.decimals);
-						let position = string.length - decimals;
-						let split = string.split("");
-						split.splice(position, 0, ".");
-						let join = split.join("");
 
-						let id = info.coingecko;
+					let balance = token.balance;
+					let string = balance.toFixed(0);
+					let decimals = parseInt(info.decimals);
+					let position = string.length - decimals;
+					let split = string.split("");
+					split.splice(position, 0, ".");
+					let join = split.join("");
+
+					if (info.price) {
+						// let id = info.symbol;
 						let amount = parseFloat(parseFloat(join).toFixed(2));
 
 						setTimeout(() => {
-							getCoinID("id", id).then(response => {
-								if ("id" in response) {
+							getCoinID("id", symbol).then(response => {
+								if (response.id) {
 									if (settings.importTokens === "add") {
-										addHolding(id, amount);
+										addHolding(response.id, amount);
 									} else {
-										updateHolding(id, amount);
+										updateHolding(response.id, amount);
 									}
 								} else {
 									Notify.error({
@@ -1160,11 +1161,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 						Notify.info({
 							title: "Adding " + symbol,
 							description: "Adding asset to holdings."
-						});
-					} else {
-						Notify.error({
-							title: symbol + " Not Found",
-							description: symbol + " isn't listed on CoinGecko."
 						});
 					}
 				});
@@ -1301,7 +1297,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 									hidePopup();
 
 									setTimeout(() => {
-										let html = '<span class="message">Please scan the QR code with the CENTCEX mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
+										let html = '<span class="message">Please scan the QR code with the Centcex-Portfolio mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
 
 										popup("QR Login Code", html, "400px", "540px");
 
@@ -4554,14 +4550,40 @@ document.addEventListener("DOMContentLoaded", async () => {
 					xhr.addEventListener("readystatechange", () => {
 						if (xhr.readyState === XMLHttpRequest.DONE) {
 							if (validJSON(xhr.responseText)) {
-								resolve(JSON.parse(xhr.responseText));
+								let data = JSON.parse(xhr.responseText);
+
+								if (data.coins.length > 0) {
+									data.coins.forEach(coin => {
+										if (coin.symbol === value) {
+
+											let xhr1 = new XMLHttpRequest();
+
+											xhr1.addEventListener("readystatechange", () => {
+												if (xhr1.readyState === XMLHttpRequest.DONE) {
+													if (validJSON(xhr1.responseText)) {
+														resolve(JSON.parse(xhr1.responseText));
+													} else {
+														reject("Invalid JSON.");
+													}
+												}
+											});
+
+											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + coin.id, true);
+											xhr1.send();
+										}
+									});
+								}
+								else {
+									reject("No token found");
+								}
+
 							} else {
 								reject("Invalid JSON.");
 							}
 						}
 					});
 
-					xhr.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + value, true);
+					xhr.open("GET", "https://api.coingecko.com/api/v3/search?query=" + value, true);
 					xhr.send();
 				}
 			} catch (e) {
@@ -5163,6 +5185,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 			spanStorageText.textContent = "Error";
 			console.log(e);
 		});
+	}
+
+	if (window.location.search.includes('page=register')) {
+		document.getElementById("new-account-button").click();
 	}
 });
 

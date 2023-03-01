@@ -62,14 +62,14 @@ export default function Market({ navigation }) {
 
 	useEffect(() => {
 		setInterval(() => {
-			if(navigation.isFocused()) {
+			if (navigation.isFocused()) {
 				getMarket();
 				getGlobal();
 			}
 		}, 15000);
 
 		navigation.addListener("focus", () => {
-			if(navigation.isFocused()) {
+			if (navigation.isFocused()) {
 				setTimeout(() => {
 					setPageKey(epoch());
 					getMarket();
@@ -96,14 +96,14 @@ export default function Market({ navigation }) {
 	}, []);
 
 	return (
-		<ScrollView style={[styles.page, styles[`page${theme}`]]} key={pageKey} contentContainerStyle={{ padding:20 }} nestedScrollEnabled={true} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[globalColors[theme].accentFirst]} progressBackgroundColor={globalColors[theme].mainFirst}/>}>
-			<Modal animationType="fade" visible={modal} onRequestClose={() => { hideModal()}} transparent={false}>
-				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{paddingBottom:20}}>
+		<ScrollView style={[styles.page, styles[`page${theme}`]]} key={pageKey} contentContainerStyle={{ padding: 20 }} nestedScrollEnabled={true} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[globalColors[theme].accentFirst]} progressBackgroundColor={globalColors[theme].mainFirst} />}>
+			<Modal animationType="fade" visible={modal} onRequestClose={() => { hideModal() }} transparent={false}>
+				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{ paddingBottom: 20 }}>
 					<View style={[styles.modalWrapper, styles[`modalWrapper${theme}`]]}>
 						<View stlye={[styles.modal, styles[`modal${theme}`]]}>
 							<View style={[styles.chartWrapper, styles[`modal${theme}`]]}>
-								<ScrollView horizontal={true} style={{ height:300 }}>
-									{ !empty(chartData) && !empty(chartLabels) ? 
+								<ScrollView horizontal={true} style={{ height: 300 }}>
+									{!empty(chartData) && !empty(chartLabels) ?
 										<GradientChart
 											data={{
 												labels: chartLabels,
@@ -155,34 +155,34 @@ export default function Market({ navigation }) {
 											}}
 											gradient={gradientColor()}
 										/>
-									: 
-										<View style={{ height:320, width:screenWidth }}></View>
+										:
+										<View style={{ height: 320, width: screenWidth }}></View>
 									}
 								</ScrollView>
 							</View>
-							{ !empty(modalMessage) &&
+							{!empty(modalMessage) &&
 								<View style={styles.modalMessageWrapper}>
 									<Text style={styles.modalMessage}>{modalMessage}</Text>
 								</View>
 							}
-							{ !empty(modalWatchlist) && !modalWatchlist &&
-								<TouchableOpacity style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`], { width:220 }]} onPress={() => { createWatchlist(coinID, coinSymbol); setModalWatchlist(true)}}>
+							{!empty(modalWatchlist) && !modalWatchlist &&
+								<TouchableOpacity style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`], { width: 220 }]} onPress={() => { createWatchlist(coinID, coinSymbol); setModalWatchlist(true) }}>
 									<Text style={[styles.modalDescription, styles[`modalDescription${theme}`]]}>Add To Watchlist</Text>
 								</TouchableOpacity>
 							}
-							{ modalWatchlist &&
-								<TouchableOpacity style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`], { width:220, backgroundColor:globalColors[theme].accentThird }]} onPress={() => { deleteWatchlist(coinID); setModalWatchlist(false)}}>
-									<Text style={[styles.modalDescription, styles[`modalDescription${theme}`], { color:globalColors[theme].accentContrast }]}>Remove From Watchlist</Text>
+							{modalWatchlist &&
+								<TouchableOpacity style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`], { width: 220, backgroundColor: globalColors[theme].accentThird }]} onPress={() => { deleteWatchlist(coinID); setModalWatchlist(false) }}>
+									<Text style={[styles.modalDescription, styles[`modalDescription${theme}`], { color: globalColors[theme].accentContrast }]}>Remove From Watchlist</Text>
 								</TouchableOpacity>
 							}
 							<View style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`]]}>
 								<Text style={[styles.modalDescription, styles[`modalDescription${theme}`]]}>{modalATH}</Text>
 							</View>
 							<View style={[styles.modalDescriptionWrapper, styles[`modalDescriptionWrapper${theme}`]]}>
-								<HTML style={[styles.modalDescription, styles[`modalDescription${theme}`]]} source={{html:modalDescription}} tagsStyles={{ a: { color:globalColors[theme].accentThird, fontSize:16, fontFamily:globalStyles.fontFamily }, div: { color:globalColors[theme].mainContrast, fontSize:16, fontFamily:globalStyles.fontFamily }}}/>
+								<HTML style={[styles.modalDescription, styles[`modalDescription${theme}`]]} source={{ html: modalDescription }} tagsStyles={{ a: { color: globalColors[theme].accentThird, fontSize: 16, fontFamily: globalStyles.fontFamily }, div: { color: globalColors[theme].mainContrast, fontSize: 16, fontFamily: globalStyles.fontFamily } }} />
 							</View>
 							<View style={styles.buttonWrapper}>
-								<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { hideModal()}}>
+								<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { hideModal() }}>
 									<Text style={styles.text}>Close</Text>
 								</TouchableOpacity>
 							</View>
@@ -190,20 +190,20 @@ export default function Market({ navigation }) {
 					</View>
 				</ScrollView>
 			</Modal>
-			<LinearGradient style={[styles.card, { marginBottom:20, marginTop:0 }]} colors={globalColors[theme].colorfulGradient} useAngle={true} angle={45}>
+			<LinearGradient style={[styles.card, { marginBottom: 20, marginTop: 0 }]} colors={globalColors[theme].colorfulGradient} useAngle={true} angle={45}>
 				<Text style={[styles.cardText, styles[`cardText${theme}`]]}>{marketCap} {marketChange}</Text>
 			</LinearGradient>
-			<ScrollView ref={marketRef} style={[styles.tableWrapper, styles[`tableWrapper${theme}`]]} contentContainerStyle={{ paddingTop:10, paddingBottom:10 }} nestedScrollEnabled={true}>
-				{ !empty(marketData) &&
+			<ScrollView ref={marketRef} style={[styles.tableWrapper, styles[`tableWrapper${theme}`]]} contentContainerStyle={{ paddingTop: 10, paddingBottom: 10 }} nestedScrollEnabled={true}>
+				{!empty(marketData) &&
 					marketData.map(row => {
 						return row;
 					})
 				}
 			</ScrollView>
-			<LinearGradient style={[styles.card, { marginTop:20 }]} colors={globalColors[theme].orangeGradient} useAngle={true} angle={45}>
+			<LinearGradient style={[styles.card, { marginTop: 20 }]} colors={globalColors[theme].orangeGradient} useAngle={true} angle={45}>
 				<Text style={[styles.cardText, styles[`cardText${theme}`]]}>{volume}</Text>
 			</LinearGradient>
-			<StatusBar style={theme === "Dark" ? "light" : "dark"}/>
+			<StatusBar style={theme === "Dark" ? "light" : "dark"} />
 		</ScrollView>
 	);
 
@@ -222,9 +222,9 @@ export default function Market({ navigation }) {
 		setModalATH("All-Time High: ...");
 		setModalDescription("<div>Loading Description...</div>");
 		setModalWatchlist();
-		
+
 		let currency = await AsyncStorage.getItem("currency");
-		if(empty(currency)) {
+		if (empty(currency)) {
 			currency = "usd";
 		}
 
@@ -237,11 +237,11 @@ export default function Market({ navigation }) {
 			getCoinMarketData(id, currency, previousYear(new Date()), new Date()).then(async data => {
 				data = parseMarketData(data, new Date().getTime(), currentPrice);
 
-				if(empty(info.description.en)) {
+				if (empty(info.description.en)) {
 					info.description.en = "No description found for " + symbol.toUpperCase() + ".";
 				}
 
-				if(Object.keys(await getWatchlist()).includes(id)) {
+				if (Object.keys(await getWatchlist()).includes(id)) {
 					setModalWatchlist(true);
 				} else {
 					setModalWatchlist(false);
@@ -250,16 +250,28 @@ export default function Market({ navigation }) {
 				setCoinID(id);
 				setCoinSymbol(info.symbol);
 
-				let months = data.months;
+				// let months = data.months;
 				let prices = data.prices;
 
-				setChartLabels(months);
-				setChartData(prices);
+				var data = [];
+				var labels = [];
+
+				const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+					"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+				];
+
+				prices.forEach(_data => {
+					labels.indexOf(monthNames[new Date(_data[0]).getUTCMonth()] + ' ' + new Date(_data[0]).getUTCFullYear()) === -1 ? labels.push(monthNames[new Date(_data[0]).getUTCMonth()] + ' ' + new Date(_data[0]).getUTCFullYear()) : '';
+					data.push(_data[1]);
+				})
+
+				setChartLabels(labels);
+				setChartData(data);
 				setChartSegments(4);
 
 				let ath = parseFloat(info.market_data.ath[currency]);
 
-				if(ath > 1) {
+				if (ath > 1) {
 					ath = separateThousands(ath.toFixed(2));
 				}
 
@@ -301,11 +313,11 @@ export default function Market({ navigation }) {
 			let monthName = months[month];
 
 			let lastMonth = parsed.months.slice(key - 31, key);
-			if(key - 31 < 0) {
+			if (key - 31 < 0) {
 				lastMonth = parsed.months.slice(0, key);
 			}
 
-			if(!lastMonth.includes(monthName)) {
+			if (!lastMonth.includes(monthName)) {
 				parsed.months.push(monthName);
 			} else {
 				parsed.months.push("");
@@ -319,16 +331,16 @@ export default function Market({ navigation }) {
 		console.log("Market - Getting Market - " + epoch());
 
 		let currency = await AsyncStorage.getItem("currency");
-		if(empty(currency)) {
+		if (empty(currency)) {
 			currency = "usd";
 		}
 
 		let highlightPriceChange = await AsyncStorage.getItem("highlightPriceChange");
-		if(empty(highlightPriceChange)) {
+		if (empty(highlightPriceChange)) {
 			highlightPriceChange = "disabled";
 		}
 
-		if(highlightPriceChangeState !== highlightPriceChange) {
+		if (highlightPriceChangeState !== highlightPriceChange) {
 			setHighlightPriceChangeState(highlightPriceChange);
 		}
 
@@ -342,73 +354,73 @@ export default function Market({ navigation }) {
 				Accept: "application/json", "Content-Type": "application/json"
 			}
 		})
-		.then((response) => {
-			return response.json();
-		})
-		.then(async (coins) => {
-			let data = [];
-
-			data.push(
-				<View style={styles.row} key={epoch() + "market-header"}>
-					<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerRank]} ellipsizeMode="tail">#</Text>
-					<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerCoin]} ellipsizeMode="tail">Coin</Text>
-					<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerPrice]} ellipsizeMode="tail">Price</Text>
-					<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerCap]} ellipsizeMode="tail">Cap</Text>
-				</View>
-			);
-
-			let keys = Object.keys(coins);
-
-			let rank = 0;
-
-			keys.map(key => {
-				rank += 1;
-
-				let coin = coins[key];
-				let price = parseFloat(coin.current_price);
-				let change = parseFloat(coin.market_cap_change_percentage_24h);
-				let cap = separateThousands(abbreviateNumber(parseFloat(coin.market_cap), 2));
-
-				if(price > 1) {
-					price = separateThousands(price);
-				}
-
-				let icon = coin.image;
-
-				let id = coin.id;
-				let symbol = coin.symbol.toUpperCase();
-
-				let changeType = "";
-				if(change > 0) {
-					changeType = "Positive";
-				} else if(change === 0) {
-					changeType = "None"
-				} else {
-					changeType = "Negative";
-				}
-
-				let highlightRow = `rowHighlight${capitalizeFirstLetter(highlightPriceChange)}${changeType}${theme}`;
-				let highlightText = `cellHighlight${capitalizeFirstLetter(highlightPriceChange)}${changeType}${theme}`;
+			.then((response) => {
+				return response.json();
+			})
+			.then(async (coins) => {
+				let data = [];
 
 				data.push(
-					<TouchableOpacity key={epoch() + key} onPress={() => { openModal(id, symbol, coin.current_price)}}>
-						<View style={[styles.row, rank % 2 ? {...styles.rowOdd, ...styles[`rowOdd${theme}`]} : null, styles[highlightRow]]}>
-							<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellRank, styles[highlightText]]} ellipsizeMode="tail">{rank}</Text>
-							<Image style={styles.cellImage} source={{uri:icon}}/>
-							<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellSymbol, styles[highlightText]]} ellipsizeMode="tail">{symbol}</Text>
-							<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellPrice, styles[highlightText]]} ellipsizeMode="tail">{currencies[currency] + price}</Text>
-							<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellCap, styles[highlightText]]} ellipsizeMode="tail">{currencies[currency] + cap}</Text>
-						</View>
-					</TouchableOpacity>
+					<View style={styles.row} key={epoch() + "market-header"}>
+						<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerRank]} ellipsizeMode="tail">#</Text>
+						<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerCoin]} ellipsizeMode="tail">Coin</Text>
+						<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerPrice]} ellipsizeMode="tail">Price</Text>
+						<Text style={[styles.headerText, styles[`headerText${theme}`], styles.headerCap]} ellipsizeMode="tail">Cap</Text>
+					</View>
 				);
-			});
 
-			if(navigation.isFocused()) {
-				setMarketData(data);
-			}
-		}).catch(error => {
-			console.log(error);
-		});
+				let keys = Object.keys(coins);
+
+				let rank = 0;
+
+				keys.map(key => {
+					rank += 1;
+
+					let coin = coins[key];
+					let price = parseFloat(coin.current_price);
+					let change = parseFloat(coin.market_cap_change_percentage_24h);
+					let cap = separateThousands(abbreviateNumber(parseFloat(coin.market_cap), 2));
+
+					if (price > 1) {
+						price = separateThousands(price);
+					}
+
+					let icon = coin.image;
+
+					let id = coin.id;
+					let symbol = coin.symbol.toUpperCase();
+
+					let changeType = "";
+					if (change > 0) {
+						changeType = "Positive";
+					} else if (change === 0) {
+						changeType = "None"
+					} else {
+						changeType = "Negative";
+					}
+
+					let highlightRow = `rowHighlight${capitalizeFirstLetter(highlightPriceChange)}${changeType}${theme}`;
+					let highlightText = `cellHighlight${capitalizeFirstLetter(highlightPriceChange)}${changeType}${theme}`;
+
+					data.push(
+						<TouchableOpacity key={epoch() + key} onPress={() => { openModal(id, symbol, coin.current_price) }}>
+							<View style={[styles.row, rank % 2 ? { ...styles.rowOdd, ...styles[`rowOdd${theme}`] } : null, styles[highlightRow]]}>
+								<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellRank, styles[highlightText]]} ellipsizeMode="tail">{rank}</Text>
+								<Image style={styles.cellImage} source={{ uri: icon }} />
+								<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellSymbol, styles[highlightText]]} ellipsizeMode="tail">{symbol}</Text>
+								<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellPrice, styles[highlightText]]} ellipsizeMode="tail">{currencies[currency] + price}</Text>
+								<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellCap, styles[highlightText]]} ellipsizeMode="tail">{currencies[currency] + cap}</Text>
+							</View>
+						</TouchableOpacity>
+					);
+				});
+
+				if (navigation.isFocused()) {
+					setMarketData(data);
+				}
+			}).catch(error => {
+				console.log(error);
+			});
 	}
 
 	async function getGlobal() {
@@ -422,32 +434,32 @@ export default function Market({ navigation }) {
 				Accept: "application/json", "Content-Type": "application/json"
 			}
 		})
-		.then((response) => {
-			return response.json();
-		})
-		.then(async (global) => {
-			let currency = await AsyncStorage.getItem("currency");
-			if(empty(currency)) {
-				currency = "usd";
-			}
+			.then((response) => {
+				return response.json();
+			})
+			.then(async (global) => {
+				let currency = await AsyncStorage.getItem("currency");
+				if (empty(currency)) {
+					currency = "usd";
+				}
 
-			let marketCap = (global.data.total_market_cap[currency]).toFixed(0);
-			let marketChange = (global.data.market_cap_change_percentage_24h_usd).toFixed(1);
-			let volume = (global.data.total_volume[currency]).toFixed(0);
+				let marketCap = (global.data.total_market_cap[currency]).toFixed(0);
+				let marketChange = (global.data.market_cap_change_percentage_24h_usd).toFixed(1);
+				let volume = (global.data.total_volume[currency]).toFixed(0);
 
-			if(screenWidth < 380) {
-				marketCap = abbreviateNumber(marketCap, 3);
-				volume = abbreviateNumber(volume, 0);
-			}
-			
-			if(navigation.isFocused()) {
-				setMarketCap(currencies[currency] + separateThousands(marketCap));
-				setMarketChange("(" + marketChange + "%)");
-				setVolume(currencies[currency] + separateThousands(volume) + " (24h)");
-			}
-		}).catch(error => {
-			console.log(error);
-		});
+				if (screenWidth < 380) {
+					marketCap = abbreviateNumber(marketCap, 3);
+					volume = abbreviateNumber(volume, 0);
+				}
+
+				if (navigation.isFocused()) {
+					setMarketCap(currencies[currency] + separateThousands(marketCap));
+					setMarketChange("(" + marketChange + "%)");
+					setVolume(currencies[currency] + separateThousands(volume) + " (24h)");
+				}
+			}).catch(error => {
+				console.log(error);
+			});
 	}
 
 	function getCoinInfo(id) {
@@ -462,15 +474,15 @@ export default function Market({ navigation }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((response) => {
-				return response.json();
-			})
-			.then(async (info) => {
-				resolve(info);
-			})
-			.catch(error => {
-				reject(error);
-			});
+				.then((response) => {
+					return response.json();
+				})
+				.then(async (info) => {
+					resolve(info);
+				})
+				.catch(error => {
+					reject(error);
+				});
 		});
 	}
 
@@ -486,15 +498,15 @@ export default function Market({ navigation }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((response) => {
-				return response.json();
-			})
-			.then(async (info) => {
-				resolve(info);
-			})
-			.catch(error => {
-				reject(error);
-			});
+				.then((response) => {
+					return response.json();
+				})
+				.then(async (info) => {
+					resolve(info);
+				})
+				.catch(error => {
+					reject(error);
+				});
 		});
 	}
 }

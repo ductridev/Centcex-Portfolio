@@ -6,29 +6,29 @@ export function login(url, username, password) {
 	return new Promise((resolve, reject) => {
 		let isFulfilled = false;
 
-		if(empty(url) || empty(username) || empty(password)) {
+		if (empty(url) || empty(username) || empty(password)) {
 			isFulfilled = true;
 			reject("All fields must be filled out.");
 		} else {
 			setTimeout(() => {
-				if(!isFulfilled) {
+				if (!isFulfilled) {
 					isFulfilled = true;
 					reject("Login failed. Make sure the API URL is valid.");
 				}
 			}, 5000);
 
-			if(!url.includes("http://") && !url.includes("https://")) {
+			if (!url.includes("http://") && !url.includes("https://")) {
 				url = "http://" + url;
 			}
 
 			let lastCharacter = url.substr(url.length - 1);
-			if(lastCharacter !== "/") {
+			if (lastCharacter !== "/") {
 				url = url + "/";
 			}
 
 			let endpoint = url + "accounts/login.php?platform=app";
 
-			let body = { username:username, password:password };
+			let body = { username: username, password: password };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -37,24 +37,24 @@ export function login(url, username, password) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if("error" in response) {
-					isFulfilled = true;
-					reject(response.error);
-				} else {
-					if(response.valid) {
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if ("error" in response) {
 						isFulfilled = true;
-						resolve({ token:response.token, username:response.username, api:url });
+						reject(response.error);
+					} else {
+						if (response.valid) {
+							isFulfilled = true;
+							resolve({ token: response.token, username: response.username, api: url });
+						}
 					}
-				}
-			}).catch(error => {
-				isFulfilled = true;
-				reject("Login failed. Make sure the API URL is valid.");
-				console.log(error);
-			});
+				}).catch(error => {
+					isFulfilled = true;
+					reject("Login failed. Make sure the API URL is valid.");
+					console.log(error);
+				});
 		}
 	});
 }
@@ -63,12 +63,12 @@ export async function verifySession(token) {
 	return new Promise(async (resolve, reject) => {
 		let isFulfilled = false;
 
-		if(empty(token)) {
+		if (empty(token)) {
 			isFulfilled = true;
 			reject("Token not found.");
 		} else {
 			setTimeout(() => {
-				if(!isFulfilled) {
+				if (!isFulfilled) {
 					isFulfilled = true;
 					reject("Login failed. Make sure the API URL is valid.");
 				}
@@ -79,7 +79,7 @@ export async function verifySession(token) {
 
 			let endpoint = api + "accounts/login.php?platform=app";
 
-			let body = { token:token, username:username };
+			let body = { token: token, username: username };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -88,61 +88,75 @@ export async function verifySession(token) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if("valid" in response && response.valid) {
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if ("valid" in response && response.valid) {
+						isFulfilled = true;
+						resolve(response);
+					} else {
+						await AsyncStorage.removeItem("token");
+						isFulfilled = true;
+						reject("Invalid token.");
+					}
+				}).catch(error => {
 					isFulfilled = true;
-					resolve(response);
-				} else {
-					await AsyncStorage.removeItem("token");
-					isFulfilled = true;
-					reject("Invalid token.");
-				}
-			}).catch(error => {
-				isFulfilled = true;
-				reject("Login failed. Make sure the API URL is valid.");
-				console.log(error);
-			});
+					reject("Login failed. Make sure the API URL is valid.");
+					console.log(error);
+				});
 		}
 	});
 }
 
 export async function getCoinID(key, value) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
-			let endpoint = api + "coins/read.php?" + key + "=" + value + "&token=" + token + "&username=" + username;
-
-			fetch(endpoint, {
+			fetch("https://api.coingecko.com/api/v3/search?query=" + value, {
 				method: "GET",
 				headers: {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
+			}).then((data) => {
+				data = JSON.parse(data);
+				if (data.coins.length > 0) {
+					data.coins.forEach(coin => {
+						if (coin.symbol === value) {
+							let endpoint = api + "coins/read.php?" + key + "=" + coin.id + "&token=" + token + "&username=" + username;
+
+							fetch(endpoint, {
+								method: "GET",
+								headers: {
+									Accept: "application/json", "Content-Type": "application/json"
+								}
+							})
+								.then((json) => {
+									return json.json();
+								})
+								.then(async (response) => {
+									resolve(response);
+								}).catch(error => {
+									console.log(error);
+									reject(error);
+								});
+						}
+					});
+				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				resolve(response);
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
 			}
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
-			noAPI.readCoins({ [key]:value }).then(response => {
+			noAPI.readCoins({ [key]: value }).then(response => {
 				resolve(response);
 			}).catch(error => {
 				console.log(error);
@@ -162,25 +176,25 @@ export async function getETHAddressBalance(address) {
 				Accept: "application/json", "Content-Type": "application/json"
 			}
 		})
-		.then((json) => {
-			return json.json();
-		})
-		.then(async (response) => {
-			resolve(response);
-		}).catch(error => {
-			console.log(error);
-			reject(error);
-		});
+			.then((json) => {
+				return json.json();
+			})
+			.then(async (response) => {
+				resolve(response);
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
 	});
 }
 
 export async function importData(type, rows) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let isFulfilled = false;
 
 			setTimeout(() => {
-				if(!isFulfilled) {
+				if (!isFulfilled) {
 					isFulfilled = true;
 					reject("Data Import Failed");
 				}
@@ -192,11 +206,11 @@ export async function importData(type, rows) {
 
 			let endpoint = api + "holdings/import.php";
 
-			if(type === "activity") {
+			if (type === "activity") {
 				endpoint = api + "activity/import.php";
 			}
 
-			let body = { token:token, username:username, rows:rows };
+			let body = { token: token, username: username, rows: rows };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -205,23 +219,23 @@ export async function importData(type, rows) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if("error" in response) {
-					reject(response.error);
-				} else {
-					resolve(response.message);
-				}
-			}).catch(error => {
-				isFulfilled = true;
-				reject("Data Import Failed");
-				console.log(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if ("error" in response) {
+						reject(response.error);
+					} else {
+						resolve(response.message);
+					}
+				}).catch(error => {
+					isFulfilled = true;
+					reject("Data Import Failed");
+					console.log(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -229,14 +243,14 @@ export async function importData(type, rows) {
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response;
-			
-			if(type === "holdings") {
+
+			if (type === "holdings") {
 				noAPI.importHoldings(rows);
 			} else {
 				noAPI.importActivity(rows);
 			}
 
-			if("error" in response) {
+			if ("error" in response) {
 				reject(response.error);
 			} else {
 				resolve(response.message);
@@ -247,14 +261,14 @@ export async function importData(type, rows) {
 
 export async function addHolding(id, symbol, amount) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "holdings/create.php";
 			let method = "POST";
-			let body = { token:token, username:username, id:id, symbol:symbol, amount:amount };
+			let body = { token: token, username: username, id: id, symbol: symbol, amount: amount };
 
 			fetch(endpoint, {
 				method: method,
@@ -263,22 +277,22 @@ export async function addHolding(id, symbol, amount) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if("message" in response) {
-					resolve();
-				} else {
-					reject();
-				}
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if ("message" in response) {
+						resolve();
+					} else {
+						reject();
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -286,7 +300,7 @@ export async function addHolding(id, symbol, amount) {
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.createHoldings(id, symbol, amount);
-			if("message" in response) {
+			if ("message" in response) {
 				resolve();
 			} else {
 				reject();
@@ -297,14 +311,14 @@ export async function addHolding(id, symbol, amount) {
 
 export async function updateHolding(id, amount) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "holdings/update.php";
 			let method = "PUT";
-			let body = { token:token, username:username, id:id, amount:amount };
+			let body = { token: token, username: username, id: id, amount: amount };
 
 			fetch(endpoint, {
 				method: method,
@@ -313,22 +327,22 @@ export async function updateHolding(id, amount) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if("message" in response) {
-					resolve();
-				} else {
-					reject();
-				}
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if ("message" in response) {
+						resolve();
+					} else {
+						reject();
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -336,7 +350,7 @@ export async function updateHolding(id, amount) {
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.updateHoldings(id, amount);
-			if("message" in response) {
+			if ("message" in response) {
 				resolve();
 			} else {
 				reject();
@@ -347,7 +361,7 @@ export async function updateHolding(id, amount) {
 
 export async function getWatchlist() {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
@@ -360,18 +374,18 @@ export async function getWatchlist() {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((response) => {
-				return response.json();
-			})
-			.then(async (watchlist) => {
-				resolve(watchlist);
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
+				.then((response) => {
+					return response.json();
+				})
+				.then(async (watchlist) => {
+					resolve(watchlist);
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -385,14 +399,14 @@ export async function getWatchlist() {
 
 export async function createWatchlist(id, symbol) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "watchlist/create.php";
 
-			let body = { token:token, username:username, id:id, symbol:symbol };
+			let body = { token: token, username: username, id: id, symbol: symbol };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -401,22 +415,22 @@ export async function createWatchlist(id, symbol) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then((response) => {
-				if("error" in response) {
-					reject(response.error);
-				} else {
-					resolve(response.message);
-				}
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then((response) => {
+					if ("error" in response) {
+						reject(response.error);
+					} else {
+						resolve(response.message);
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -424,7 +438,7 @@ export async function createWatchlist(id, symbol) {
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.createWatchlist(id, symbol);
-			if("message" in response) {
+			if ("message" in response) {
 				resolve(response.message);
 			} else {
 				reject(response.error);
@@ -435,14 +449,14 @@ export async function createWatchlist(id, symbol) {
 
 export async function deleteWatchlist(id) {
 	return new Promise(async (resolve, reject) => {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "watchlist/delete.php";
 
-			let body = { token:token, username:username, id:id };
+			let body = { token: token, username: username, id: id };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -451,22 +465,22 @@ export async function deleteWatchlist(id) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then((response) => {
-				if("error" in response) {
-					reject(response.error);
-				} else {
-					resolve(response.message);
-				}
-			}).catch(error => {
-				console.log(error);
-				reject(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then((response) => {
+					if ("error" in response) {
+						reject(response.error);
+					} else {
+						resolve(response.message);
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -474,7 +488,7 @@ export async function deleteWatchlist(id) {
 
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.deleteWatchlist(id);
-			if("message" in response) {
+			if ("message" in response) {
 				resolve(response.message);
 			} else {
 				reject(response.error);

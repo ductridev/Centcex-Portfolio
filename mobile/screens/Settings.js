@@ -52,22 +52,22 @@ export default function Settings({ navigation, route }) {
 		getSettings();
 
 		navigation.addListener("focus", () => {
-			if(navigation.isFocused()) {
+			if (navigation.isFocused()) {
 				getSettings();
 			}
 		});
 	}, []);
 
 	return (
-		<ScrollView style={[styles.page, styles[`page${theme}`]]} contentContainerStyle={{ padding:20 }} nestedScrollEnabled={true}>
-			<Modal animationType="fade" visible={modal} onRequestClose={() => { hideModal()}} transparent={false}>
+		<ScrollView style={[styles.page, styles[`page${theme}`]]} contentContainerStyle={{ padding: 20 }} nestedScrollEnabled={true}>
+			<Modal animationType="fade" visible={modal} onRequestClose={() => { hideModal() }} transparent={false}>
 				<View style={[styles.modalWrapper, styles[`modalWrapper${theme}`]]}>
 					<View stlye={[styles.modal, styles[`modal${theme}`]]}>
 						<View style={[styles.buttonWrapper, styles.buttonWrapperCenter]}>
-							{/* <TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { clearNoAPIData()}}>
+							<TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { clearNoAPIData() }}>
 								<Text style={styles.text}>Delete No-API Data</Text>
-							</TouchableOpacity> */}
-							<TouchableOpacity style={[styles.button, styles[`button${theme}`], styles.buttonCancel]} onPress={() => { hideModal()}}>
+							</TouchableOpacity>
+							<TouchableOpacity style={[styles.button, styles[`button${theme}`], styles.buttonCancel]} onPress={() => { hideModal() }}>
 								<Text style={styles.text}>Cancel</Text>
 							</TouchableOpacity>
 						</View>
@@ -78,25 +78,25 @@ export default function Settings({ navigation, route }) {
 				<Text style={[styles.header, styles[`header${theme}`]]}>Appearance</Text>
 				<View style={styles.container}>
 					<Text style={[styles.containerText, styles[`containerText${theme}`]]}>Theme</Text>
-					<Switch trackColor={{ false:globalColors["Dark"].mainFifth, true:globalColors["Light"].accentFirst }} thumbColor={theme === "Dark" ? globalColors["Dark"].accentFirst : globalColors["Light"].mainFirst} onValueChange={() => switchTheme()} value={theme !== "Dark"}/>
+					<Switch trackColor={{ false: globalColors["Dark"].mainFifth, true: globalColors["Light"].accentFirst }} thumbColor={theme === "Dark" ? globalColors["Dark"].accentFirst : globalColors["Light"].mainFirst} onValueChange={() => switchTheme()} value={theme !== "Dark"} />
 				</View>
 			</View>
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Default Page</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Dashboard") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Dashboard")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Dashboard") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Dashboard") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (defaultPage === "Dashboard") ? styles.buttonTextActive : null]}>Dashboard</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Market") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Market")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Market") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Market") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (defaultPage === "Market") ? styles.buttonTextActive : null]}>Market</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Holdings") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Holdings")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Holdings") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Holdings") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (defaultPage === "Holdings") ? styles.buttonTextActive : null]}>Holdings</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Activity") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Activity")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Activity") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Activity") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (defaultPage === "Activity") ? styles.buttonTextActive : null]}>Activity</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Settings") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Settings")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (defaultPage === "Settings") ? styles.inlineButtonActive : null]} onPress={() => { changeDefaultPage("Settings") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (defaultPage === "Settings") ? styles.buttonTextActive : null]}>Settings</Text>
 					</TouchableOpacity>
 				</View>
@@ -104,25 +104,25 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Fiat Currency</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "usd") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("usd")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "usd") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("usd") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "usd") ? styles.buttonTextActive : null]}>USD</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "gbp") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("gbp")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "gbp") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("gbp") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "gbp") ? styles.buttonTextActive : null]}>GBP</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "eur") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("eur")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "eur") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("eur") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "eur") ? styles.buttonTextActive : null]}>EUR</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "chf") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("chf")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "chf") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("chf") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "chf") ? styles.buttonTextActive : null]}>CHF</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "aud") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("aud")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "aud") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("aud") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "aud") ? styles.buttonTextActive : null]}>AUD</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "jpy") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("jpy")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "jpy") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("jpy") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "jpy") ? styles.buttonTextActive : null]}>JPY</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "cad") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("cad")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (currency === "cad") ? styles.inlineButtonActive : null]} onPress={() => { changeCurrency("cad") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (currency === "cad") ? styles.buttonTextActive : null]}>CAD</Text>
 					</TouchableOpacity>
 				</View>
@@ -130,10 +130,10 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Dashboard Watchlist</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardWatchlist === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardWatchlist("disabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardWatchlist === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardWatchlist("disabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardWatchlist === "disabled") ? styles.buttonTextActive : null]}>Disabled</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardWatchlist === "enabled") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardWatchlist("enabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardWatchlist === "enabled") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardWatchlist("enabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardWatchlist === "enabled") ? styles.buttonTextActive : null]}>Enabled</Text>
 					</TouchableOpacity>
 				</View>
@@ -141,10 +141,10 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Additional Dashboard Columns</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (additionalDashboardColumns === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeAdditionalDashboardColumns("disabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (additionalDashboardColumns === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeAdditionalDashboardColumns("disabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (additionalDashboardColumns === "disabled") ? styles.buttonTextActive : null]}>Disabled</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (additionalDashboardColumns === "enabled") ? styles.inlineButtonActive : null]} onPress={() => { changeAdditionalDashboardColumns("enabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (additionalDashboardColumns === "enabled") ? styles.inlineButtonActive : null]} onPress={() => { changeAdditionalDashboardColumns("enabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (additionalDashboardColumns === "enabled") ? styles.buttonTextActive : null]}>Enabled</Text>
 					</TouchableOpacity>
 				</View>
@@ -152,24 +152,24 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Dashboard Market Sorting</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "coin") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("coin")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "coin") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("coin") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSorting === "coin") ? styles.buttonTextActive : null]}>Coin</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "price") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("price")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "price") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("price") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSorting === "price") ? styles.buttonTextActive : null]}>Price</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "marketCap") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("marketCap")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "marketCap") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("marketCap") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSorting === "marketCap") ? styles.buttonTextActive : null]}>Market Cap</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "change") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("change")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSorting === "change") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSorting("change") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSorting === "change") ? styles.buttonTextActive : null]}>Change</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSortOrder === "descending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSortOrder("descending")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSortOrder === "descending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSortOrder("descending") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSortOrder === "descending") ? styles.buttonTextActive : null]}>Descending</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSortOrder === "ascending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSortOrder("ascending")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardMarketSortOrder === "ascending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardMarketSortOrder("ascending") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardMarketSortOrder === "ascending") ? styles.buttonTextActive : null]}>Ascending</Text>
 					</TouchableOpacity>
 				</View>
@@ -177,56 +177,56 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Dashboard Holdings Sorting</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "coin") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("coin")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "coin") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("coin") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSorting === "coin") ? styles.buttonTextActive : null]}>Coin</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "amount") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("amount")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "amount") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("amount") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSorting === "amount") ? styles.buttonTextActive : null]}>Amount</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "value") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("value")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "value") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("value") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSorting === "value") ? styles.buttonTextActive : null]}>Value</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "change") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("change")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSorting === "change") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSorting("change") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSorting === "change") ? styles.buttonTextActive : null]}>Change</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSortOrder === "descending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSortOrder("descending")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSortOrder === "descending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSortOrder("descending") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSortOrder === "descending") ? styles.buttonTextActive : null]}>Descending</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSortOrder === "ascending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSortOrder("ascending")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (dashboardHoldingsSortOrder === "ascending") ? styles.inlineButtonActive : null]} onPress={() => { changeDashboardHoldingsSortOrder("ascending") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (dashboardHoldingsSortOrder === "ascending") ? styles.buttonTextActive : null]}>Ascending</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Import ETH Tokens</Text>
-				<View style={[styles.sectionDescriptionWrapper, styles[`sectionDescriptionWrapper${theme}`], { marginBottom:20 }]}>
-					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>Using Ethplorer, the current balance of the tokens in your ETH wallet can be imported into CENTCEX. Your Ethereum token holdings would either get added to your current holdings, or would replace them depending on which option you choose. Tokens that aren't listed on CoinGecko would not get added.</Text>
+				<View style={[styles.sectionDescriptionWrapper, styles[`sectionDescriptionWrapper${theme}`], { marginBottom: 20 }]}>
+					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>Using Ethplorer, the current balance of the tokens in your ETH wallet can be imported into Centcex-Portfolio. Your Ethereum token holdings would either get added to your current holdings, or would replace them depending on which option you choose. Tokens that aren't listed on CoinGecko would not get added.</Text>
 				</View>
-				<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder="ETH Address..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setEthAddress(value)}} autoCapitalize="none"/>
+				<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder="ETH Address..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setEthAddress(value) }} autoCapitalize="none" />
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], { marginTop:0, marginBottom:0 }, (importTokens === "add") ? styles.inlineButtonActive : null]} onPress={() => { changeImportTokens("add")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], { marginTop: 0, marginBottom: 0 }, (importTokens === "add") ? styles.inlineButtonActive : null]} onPress={() => { changeImportTokens("add") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (importTokens === "add") ? styles.buttonTextActive : null]}>Add</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], { marginTop:0, marginBottom:0 }, (importTokens === "replace") ? styles.inlineButtonActive : null]} onPress={() => { changeImportTokens("replace")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], { marginTop: 0, marginBottom: 0 }, (importTokens === "replace") ? styles.inlineButtonActive : null]} onPress={() => { changeImportTokens("replace") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (importTokens === "replace") ? styles.buttonTextActive : null]}>Replace</Text>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={[styles.button, { marginTop:20 }]} onPress={() => { importETHTokens(importTokens, ethAddress) }}>
+				<TouchableOpacity style={[styles.button, { marginTop: 20 }]} onPress={() => { importETHTokens(importTokens, ethAddress) }}>
 					<Text style={styles.text}>Import</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Transactions Affect Holdings</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("disabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("disabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (transactionsAffectHoldings === "disabled") ? styles.buttonTextActive : null]}>Disabled</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "mixed") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("mixed")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "mixed") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("mixed") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (transactionsAffectHoldings === "mixed") ? styles.buttonTextActive : null]}>Mixed</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "override") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("override")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (transactionsAffectHoldings === "override") ? styles.inlineButtonActive : null]} onPress={() => { changeTransactionsAffectHoldings("override") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (transactionsAffectHoldings === "override") ? styles.buttonTextActive : null]}>Override</Text>
 					</TouchableOpacity>
 				</View>
@@ -234,35 +234,35 @@ export default function Settings({ navigation, route }) {
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Highlight Price Change</Text>
 				<View style={styles.container}>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("disabled")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "disabled") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("disabled") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (highlightPriceChange === "disabled") ? styles.buttonTextActive : null]}>Disabled</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "row") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("row")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "row") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("row") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (highlightPriceChange === "row") ? styles.buttonTextActive : null]}>Row</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "text") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("text")}}>
+					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (highlightPriceChange === "text") ? styles.inlineButtonActive : null]} onPress={() => { changeHighlightPriceChange("text") }}>
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`], (highlightPriceChange === "text") ? styles.buttonTextActive : null]}>Text</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
 			<View style={[styles.section, styles[`section${theme}`]]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Account</Text>
-				{ !noAPIMode &&
+				{!noAPIMode &&
 					<View>
-						{ !empty(accountMessage) &&
+						{!empty(accountMessage) &&
 							<View style={styles.messageWrapper}>
 								<Text style={styles.message}>{accountMessage}</Text>
 							</View>
 						}
-						<TextInput secureTextEntry={!empty(currentPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="Current Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setCurrentPassword(value)}} autoCapitalize="none"/>
-						<TextInput secureTextEntry={!empty(newPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="New Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setNewPassword(value)}} autoCapitalize="none"/>
-						<TextInput secureTextEntry={!empty(repeatPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="Repeat Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setRepeatPassword(value)}} autoCapitalize="none"/>
+						<TextInput secureTextEntry={!empty(currentPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="Current Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setCurrentPassword(value) }} autoCapitalize="none" />
+						<TextInput secureTextEntry={!empty(newPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="New Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setNewPassword(value) }} autoCapitalize="none" />
+						<TextInput secureTextEntry={!empty(repeatPassword)} style={[styles.input, styles[`input${theme}`]]} placeholder="Repeat Password..." placeholderTextColor={globalColors[theme].mainContrastLight} onChangeText={(value) => { setRepeatPassword(value) }} autoCapitalize="none" />
 						<TouchableOpacity style={styles.button} onPress={() => { changePassword() }}>
 							<Text style={styles.text}>Change Password</Text>
 						</TouchableOpacity>
 					</View>
 				}
-				{ noAPIMode &&
+				{noAPIMode &&
 					<View>
 						<TouchableOpacity style={styles.button} onPress={() => { showModal() }}>
 							<Text style={styles.text}>Clear No-API Data</Text>
@@ -291,10 +291,10 @@ export default function Settings({ navigation, route }) {
 					<Text style={styles.text}>Export Activity</Text>
 				</TouchableOpacity>
 			</View>
-			<View style={[styles.section, styles[`section${theme}`], { marginBottom:60 }]}>
+			{/* <View style={[styles.section, styles[`section${theme}`], { marginBottom:60 }]}>
 				<Text style={[styles.header, styles[`header${theme}`]]}>Donate</Text>
 				<View style={[styles.sectionDescriptionWrapper, styles[`sectionDescriptionWrapper${theme}`]]}>
-					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>If you'd like to donate, then please feel free to do so, it'd be much appreciated. However, I don't want you to feel obliged to do so, and there are no perks for it. If you decide to donate, please contact me afterwards so I can actually thank you, and I'd love to hear about any ideas you may have for CENTCEX. If they're within the scope of the project, I'll probably implement them.</Text>
+					<Text style={[styles.sectionDescription, styles[`sectionDescription${theme}`]]}>If you'd like to donate, then please feel free to do so, it'd be much appreciated. However, I don't want you to feel obliged to do so, and there are no perks for it. If you decide to donate, please contact me afterwards so I can actually thank you, and I'd love to hear about any ideas you may have for Centcex-Portfolio. If they're within the scope of the project, I'll probably implement them.</Text>
 				</View>
 				<View style={styles.container}>
 					<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`]]} onPress={() => { copyAddress("ADA")}}>
@@ -322,8 +322,8 @@ export default function Settings({ navigation, route }) {
 						<Text style={[styles.buttonText, styles[`buttonText${theme}`]]}>DOT</Text>
 					</TouchableOpacity>
 				</View>
-			</View>
-			<StatusBar style={theme === "Dark" ? "light" : "dark"}/>
+			</View> */}
+			<StatusBar style={theme === "Dark" ? "light" : "dark"} />
 		</ScrollView>
 	);
 
@@ -353,11 +353,11 @@ export default function Settings({ navigation, route }) {
 	}
 
 	async function readData(type) {
-		DocumentPicker.pick({ type:"text/csv", copyTo:"cachesDirectory" }).then(result => {
+		DocumentPicker.pick({ type: "text/csv", copyTo: "cachesDirectory" }).then(result => {
 			RNFS.readFile(result.fileCopyUri, "ascii").then(data => {
-				if(type === "holdings") {
+				if (type === "holdings") {
 					importHoldings(data);
-				} else if(type === "activity") {
+				} else if (type === "activity") {
 					importActivity(data);
 				}
 			}).catch(error => {
@@ -376,10 +376,10 @@ export default function Settings({ navigation, route }) {
 
 	async function importHoldings(data) {
 		let rows = data.split(/\r?\n/);
-		if(rows[0] === "id,symbol,amount") {
+		if (rows[0] === "id,symbol,amount") {
 			let formatted = [];
 			rows.map(row => {
-				if(!empty(row) && !row.toLowerCase().includes("symbol,")) {
+				if (!empty(row) && !row.toLowerCase().includes("symbol,")) {
 					formatted.push(row);
 				}
 			});
@@ -395,11 +395,11 @@ export default function Settings({ navigation, route }) {
 
 	async function importActivity(data) {
 		let rows = data.split(/\r?\n/);
-		if(rows[0].includes("id,symbol,date,type,amount,fee,notes,exchange,pair,price,from,to")) {
+		if (rows[0].includes("id,symbol,date,type,amount,fee,notes,exchange,pair,price,from,to")) {
 			let formatted = [];
 			rows.map(row => {
-				if(!empty(row) && !row.toLowerCase().includes("symbol,")) {
-					if(rows[0].includes("txID")) {
+				if (!empty(row) && !row.toLowerCase().includes("symbol,")) {
+					if (rows[0].includes("txID")) {
 						formatted.push(row);
 					} else {
 						formatted.push("-," + row);
@@ -417,14 +417,14 @@ export default function Settings({ navigation, route }) {
 	}
 
 	async function exportData(type) {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "holdings/export.php?token=" + token + "&username=" + username;
 
-			if(type === "activity") {
+			if (type === "activity") {
 				endpoint = api + "activity/export.php?token=" + token + "&username=" + username;
 			}
 
@@ -434,7 +434,7 @@ export default function Settings({ navigation, route }) {
 			});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -443,8 +443,8 @@ export default function Settings({ navigation, route }) {
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let filename;
 			let csv;
-			
-			if(type === "activity") {
+
+			if (type === "activity") {
 				filename = "Activity-" + Math.floor(new Date().getTime() / 1000) + ".csv";
 				csv = noAPI.exportActivity();
 			} else {
@@ -464,7 +464,7 @@ export default function Settings({ navigation, route }) {
 	}
 
 	async function importETHTokens(importTokens, address) {
-		if(!empty(address)) {
+		if (!empty(address)) {
 			getETHAddressBalance(address).then(balance => {
 				ToastAndroid.showWithGravity("Importing tokens...", ToastAndroid.LONG, ToastAndroid.BOTTOM);
 
@@ -479,25 +479,27 @@ export default function Settings({ navigation, route }) {
 					let token = tokens[key];
 					let info = token.tokenInfo;
 					let symbol = info.symbol;
-					if("coingecko" in info) {
-						let balance = token.balance;
-						let string = balance.toFixed(0);
-						let decimals = parseInt(info.decimals);
-						let position = string.length - decimals;
-						let split = string.split("");
-						split.splice(position, 0, ".");
-						let join = split.join("");
-						
-						let id = info.coingecko;
+
+					let balance = token.balance;
+					let string = balance.toFixed(0);
+					let decimals = parseInt(info.decimals);
+					let position = string.length - decimals;
+					let split = string.split("");
+					split.splice(position, 0, ".");
+					let join = split.join("");
+
+					if (info.price) {
+
+						// let id = info.coingecko;
 						let amount = parseFloat(parseFloat(join).toFixed(2));
 
 						setTimeout(() => {
-							getCoinID("id", id).then(response => {
-								if("id" in response) {
-									if(importTokens === "add") {
-										addHolding(id, symbol, amount);
+							getCoinID("id", symbol).then(response => {
+								if (response.id) {
+									if (importTokens === "add") {
+										addHolding(response.id, symbol, amount);
 									} else {
-										updateHolding(id, amount);
+										updateHolding(response.id, amount);
 									}
 									ToastAndroid.showWithGravity("Adding " + symbol + ".", ToastAndroid.LONG, ToastAndroid.BOTTOM);
 								} else {
@@ -520,14 +522,14 @@ export default function Settings({ navigation, route }) {
 	}
 
 	async function changePassword() {
-		if(!empty(currentPassword) && !empty(newPassword) && !empty(repeatPassword)) {
-			if(newPassword === repeatPassword) {
+		if (!empty(currentPassword) && !empty(newPassword) && !empty(repeatPassword)) {
+			if (newPassword === repeatPassword) {
 				let api = await AsyncStorage.getItem("api");
 				let username = await AsyncStorage.getItem("username");
 
 				let endpoint = api + "accounts/update.php";
 
-				let body = { username:username, currentPassword:currentPassword, newPassword:newPassword };
+				let body = { username: username, currentPassword: currentPassword, newPassword: newPassword };
 
 				fetch(endpoint, {
 					body: JSON.stringify(body),
@@ -536,19 +538,19 @@ export default function Settings({ navigation, route }) {
 						Accept: "application/json", "Content-Type": "application/json"
 					}
 				})
-				.then((json) => {
-					return json.json();
-				})
-				.then(async (response) => {
-					if("error" in response) {
-						setAccountMessage(response.error);
-					} else {
-						await AsyncStorage.removeItem("token");
-						navigation.navigate("Login");
-					}
-				}).catch(error => {
-					console.log(error);
-				});
+					.then((json) => {
+						return json.json();
+					})
+					.then(async (response) => {
+						if ("error" in response) {
+							setAccountMessage(response.error);
+						} else {
+							await AsyncStorage.removeItem("token");
+							navigation.navigate("Login");
+						}
+					}).catch(error => {
+						console.log(error);
+					});
 			} else {
 				setAccountMessage("Passwords don't match.");
 			}
@@ -558,7 +560,7 @@ export default function Settings({ navigation, route }) {
 	}
 
 	async function logout() {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
@@ -571,22 +573,22 @@ export default function Settings({ navigation, route }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				await AsyncStorage.removeItem("NoAPIMode");
-				await AsyncStorage.removeItem("token");
-				await AsyncStorage.removeItem("username");
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					await AsyncStorage.removeItem("NoAPIMode");
+					await AsyncStorage.removeItem("token");
+					await AsyncStorage.removeItem("username");
 
-				navigation.navigate("Login");
+					navigation.navigate("Login");
 
-				if("error" in response) {
-					console.log(response);
-				}
-			}).catch(error => {
-				console.log(error);
-			});
+					if ("error" in response) {
+						console.log(response);
+					}
+				}).catch(error => {
+					console.log(error);
+				});
 		} else {
 			await AsyncStorage.removeItem("NoAPIMode");
 			await AsyncStorage.removeItem("token");
@@ -598,7 +600,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDefaultPage(page) {
 		let validPages = ["Dashboard", "Market", "Holdings", "Activity", "Settings"];
-		if(empty(page) || !validPages.includes(page)) {
+		if (empty(page) || !validPages.includes(page)) {
 			setDefaultPage("Dashboard");
 			await AsyncStorage.setItem("defaultPage", "Dashboard");
 		} else {
@@ -609,7 +611,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeCurrency(fiatCurrency) {
 		let validCurrencies = ["usd", "gbp", "eur", "chf", "aud", "jpy", "cad"];
-		if(empty(fiatCurrency) || !validCurrencies.includes(fiatCurrency)) {
+		if (empty(fiatCurrency) || !validCurrencies.includes(fiatCurrency)) {
 			setCurrency("usd");
 			await AsyncStorage.setItem("currency", "usd");
 		} else {
@@ -620,7 +622,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeImportTokens(importTokens) {
 		let validOptions = ["add", "replace"];
-		if(empty(importTokens) || !validOptions.includes(importTokens)) {
+		if (empty(importTokens) || !validOptions.includes(importTokens)) {
 			setImportTokens("add");
 			await AsyncStorage.setItem("importTokens", "add");
 		} else {
@@ -631,7 +633,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeTransactionsAffectHoldings(transactionsAffectHoldings) {
 		let validOptions = ["disabled", "mixed", "override"];
-		if(empty(transactionsAffectHoldings) || !validOptions.includes(transactionsAffectHoldings)) {
+		if (empty(transactionsAffectHoldings) || !validOptions.includes(transactionsAffectHoldings)) {
 			setTransactionsAffectHoldings("disabled");
 			await AsyncStorage.setItem("transactionsAffectHoldings", "disabled");
 		} else {
@@ -642,7 +644,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDashboardWatchlist(dashboardWatchlist) {
 		let validOptions = ["disabled", "enabled"];
-		if(empty(dashboardWatchlist) || !validOptions.includes(dashboardWatchlist)) {
+		if (empty(dashboardWatchlist) || !validOptions.includes(dashboardWatchlist)) {
 			setDashboardWatchlist("disabled");
 			await AsyncStorage.setItem("dashboardWatchlist", "disabled");
 		} else {
@@ -653,7 +655,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeAdditionalDashboardColumns(additionalDashboardColumns) {
 		let validOptions = ["disabled", "enabled"];
-		if(empty(additionalDashboardColumns) || !validOptions.includes(additionalDashboardColumns)) {
+		if (empty(additionalDashboardColumns) || !validOptions.includes(additionalDashboardColumns)) {
 			setAdditionalDashboardColumns("disabled");
 			await AsyncStorage.setItem("additionalDashboardColumns", "disabled");
 		} else {
@@ -664,7 +666,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDashboardMarketSorting(dashboardMarketSorting) {
 		let validOptions = ["coin", "price", "marketCap", "change"];
-		if(empty(dashboardMarketSorting) || !validOptions.includes(dashboardMarketSorting)) {
+		if (empty(dashboardMarketSorting) || !validOptions.includes(dashboardMarketSorting)) {
 			setDashboardMarketSorting("marketCap");
 			await AsyncStorage.setItem("dashboardMarketSorting", "marketCap");
 		} else {
@@ -675,7 +677,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDashboardMarketSortOrder(dashboardMarketSortOrder) {
 		let validOptions = ["descending", "ascending"];
-		if(empty(dashboardMarketSortOrder) || !validOptions.includes(dashboardMarketSortOrder)) {
+		if (empty(dashboardMarketSortOrder) || !validOptions.includes(dashboardMarketSortOrder)) {
 			setDashboardMarketSortOrder("descending");
 			await AsyncStorage.setItem("dashboardMarketSortOrder", "descending");
 		} else {
@@ -686,7 +688,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDashboardHoldingsSorting(dashboardHoldingsSorting) {
 		let validOptions = ["coin", "amount", "value", "change"];
-		if(empty(dashboardHoldingsSorting) || !validOptions.includes(dashboardHoldingsSorting)) {
+		if (empty(dashboardHoldingsSorting) || !validOptions.includes(dashboardHoldingsSorting)) {
 			setDashboardHoldingsSorting("coin");
 			await AsyncStorage.setItem("dashboardHoldingsSorting", "coin");
 		} else {
@@ -697,7 +699,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeDashboardHoldingsSortOrder(dashboardHoldingsSortOrder) {
 		let validOptions = ["descending", "ascending"];
-		if(empty(dashboardHoldingsSortOrder) || !validOptions.includes(dashboardHoldingsSortOrder)) {
+		if (empty(dashboardHoldingsSortOrder) || !validOptions.includes(dashboardHoldingsSortOrder)) {
 			setDashboardHoldingsSortOrder("descending");
 			await AsyncStorage.setItem("dashboardHoldingsSortOrder", "descending");
 		} else {
@@ -708,7 +710,7 @@ export default function Settings({ navigation, route }) {
 
 	async function changeHighlightPriceChange(highlightPriceChange) {
 		let validOptions = ["disabled", "row", "text"];
-		if(empty(highlightPriceChange) || !validOptions.includes(highlightPriceChange)) {
+		if (empty(highlightPriceChange) || !validOptions.includes(highlightPriceChange)) {
 			setHighlightPriceChange("disabled");
 			await AsyncStorage.setItem("highlightPriceChange", "disabled");
 		} else {
@@ -719,75 +721,75 @@ export default function Settings({ navigation, route }) {
 
 	async function getSettings() {
 		let noAPIMode = await AsyncStorage.getItem("NoAPIMode");
-		if(empty(noAPIMode)) {
+		if (empty(noAPIMode)) {
 			setNoAPIMode(false);
 		} else {
 			setNoAPIMode(true);
 		}
 
 		let currency = await AsyncStorage.getItem("currency");
-		if(empty(currency)) {
+		if (empty(currency)) {
 			currency = "usd";
 		}
 		setCurrency(currency);
 
 		let transactionsAffectHoldings = await AsyncStorage.getItem("transactionsAffectHoldings");
-		if(empty(transactionsAffectHoldings)) {
+		if (empty(transactionsAffectHoldings)) {
 			transactionsAffectHoldings = "disabled";
 		}
 		setTransactionsAffectHoldings(transactionsAffectHoldings);
 
 		let dashboardWatchlist = await AsyncStorage.getItem("dashboardWatchlist");
-		if(empty(dashboardWatchlist)) {
+		if (empty(dashboardWatchlist)) {
 			dashboardWatchlist = "disabled";
 		}
 		setDashboardWatchlist(dashboardWatchlist);
 
 		let additionalDashboardColumns = await AsyncStorage.getItem("additionalDashboardColumns");
-		if(empty(additionalDashboardColumns)) {
+		if (empty(additionalDashboardColumns)) {
 			additionalDashboardColumns = "disabled";
 		}
 		setAdditionalDashboardColumns(additionalDashboardColumns);
 
 		let importTokens = await AsyncStorage.getItem("importTokens");
-		if(empty(importTokens)) {
+		if (empty(importTokens)) {
 			importTokens = "add";
 		}
 		setImportTokens(importTokens);
 
 		let dashboardMarketSorting = await AsyncStorage.getItem("dashboardMarketSorting");
-		if(empty(dashboardMarketSorting)) {
+		if (empty(dashboardMarketSorting)) {
 			dashboardMarketSorting = "marketCap";
 		}
 		setDashboardMarketSorting(dashboardMarketSorting);
 
 		let dashboardMarketSortOrder = await AsyncStorage.getItem("dashboardMarketSortOrder");
-		if(empty(dashboardMarketSortOrder)) {
+		if (empty(dashboardMarketSortOrder)) {
 			dashboardMarketSortOrder = "descending";
 		}
 		setDashboardMarketSortOrder(dashboardMarketSortOrder);
 
 		let dashboardHoldingsSorting = await AsyncStorage.getItem("dashboardHoldingsSorting");
-		if(empty(dashboardHoldingsSorting)) {
+		if (empty(dashboardHoldingsSorting)) {
 			dashboardHoldingsSorting = "coin";
 		}
 		setDashboardHoldingsSorting(dashboardHoldingsSorting);
 
 		let dashboardHoldingsSortOrder = await AsyncStorage.getItem("dashboardHoldingsSortOrder");
-		if(empty(dashboardHoldingsSortOrder)) {
+		if (empty(dashboardHoldingsSortOrder)) {
 			dashboardHoldingsSortOrder = "descending";
 		}
 		setDashboardHoldingsSortOrder(dashboardHoldingsSortOrder);
 
 		let highlightPriceChange = await AsyncStorage.getItem("highlightPriceChange");
-		if(empty(highlightPriceChange)) {
+		if (empty(highlightPriceChange)) {
 			highlightPriceChange = "disabled";
 		}
 		setHighlightPriceChange(highlightPriceChange);
 
 		let validPages = ["Dashboard", "Market", "Holdings", "Activity", "Settings"];
 		let page = await AsyncStorage.getItem("defaultPage");
-		if(empty(page) || !validPages.includes(page)) {
+		if (empty(page) || !validPages.includes(page)) {
 			setDefaultPage("Dashboard");
 			await AsyncStorage.setItem("defaultPage", "Dashboard");
 		} else {

@@ -30,6 +30,7 @@
 	}
 	
 	function findBySymbol($coins, $symbol, $retry) {
+		$symbol = strtolower($symbol);
 		$matches = array();
 
 		foreach($coins as $coin) {

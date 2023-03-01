@@ -1,4 +1,5 @@
 const electron = require("electron");
+const shell = require('electron').shell;
 const { ipcRenderer } = electron;
 
 const Storage = new XStorage(ipcRenderer);
@@ -1051,67 +1052,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 	});
 
 	buttonNewAccount.addEventListener("click", () => {
-		let popupHeight = 240;
-		let adjustedHeight = popupHeight + 20;
-
-		divPopupWrapper.style.height = adjustedHeight + "px";
-		divPopupWrapper.style.top = "calc(50% - " + adjustedHeight + "px / 2)";
-
-		popup("Manage Accounts", '<input id="popup-username" placeholder="Username..." type="text"><input type="password" id="popup-password" placeholder="Password..." type="text"><button class="reject" id="popup-cancel">Cancel</button><button class="resolve" id="popup-confirm">Confirm</button>', "300px", adjustedHeight + "px");
-
-		let inputUsername = document.getElementById("popup-username");
-		let inputPassword = document.getElementById("popup-password");
-
-		document.getElementById("popup-cancel").addEventListener("click", () => {
-			hidePopup();
-		});
-
-		document.getElementById("popup-confirm").addEventListener("click", () => {
-			let username = inputUsername.value;
-			let password = inputPassword.value;
-
-			if (!empty(username)) {
-				if (username.toLowerCase().trim() !== "admin") {
-					createAccountNoAdmin(username, password).then(response => {
-						if ("error" in response) {
-							Notify.error({
-								title: "Error",
-								description: response.error
-							});
-						} else {
-							Notify.success({
-								title: "Account Created",
-								description: response.message
-							});
-
-							hidePopup();
-						}
-					}).catch(e => {
-						console.log(e);
-						Notify.error({
-							title: "Error",
-							description: "Couldn't create account."
-						});
-					});
-				} else {
-					Notify.error({
-						title: "Error",
-						description: "The admin account cannot be modified."
-					});
-				}
-			} else {
-				Notify.error({
-					title: "Error",
-					description: "Please fill out the input field."
-				});
-			}
-		});
+		shell.openExternal("https://app.centcex.finance/?page=register");
 	});
 
 	buttonImportTokens.addEventListener("click", () => {
 		let address = inputETHAddress.value;
 
-		if(!empty(address)) {
+		if (!empty(address)) {
 			getETHAddressBalance(address).then(balance => {
 				let eth = parseFloat(balance["ETH"].balance.toFixed(3));
 				let tokens = balance.tokens;
@@ -1124,63 +1071,59 @@ document.addEventListener("DOMContentLoaded", async () => {
 					let token = tokens[key];
 					let info = token.tokenInfo;
 					let symbol = info.symbol;
-					if("coingecko" in info) {
-						let balance = token.balance;
-						let string = balance.toFixed(0);
-						let decimals = parseInt(info.decimals);
-						let position = string.length - decimals;
-						let split = string.split("");
-						split.splice(position, 0, ".");
-						let join = split.join("");
-						
-						let id = info.coingecko;
+
+					let balance = token.balance;
+					let string = balance.toFixed(0);
+					let decimals = parseInt(info.decimals);
+					let position = string.length - decimals;
+					let split = string.split("");
+					split.splice(position, 0, ".");
+					let join = split.join("");
+
+					if (info.price) {
+						// let id = info.symbol;
 						let amount = parseFloat(parseFloat(join).toFixed(2));
 
 						setTimeout(() => {
-							getCoinID("id", id).then(response => {
-								if("id" in response) {
-									if(settings.importTokens === "add") {
-										addHolding(id, amount);
+							getCoinID("id", symbol).then(response => {
+								if (response.id) {
+									if (settings.importTokens === "add") {
+										addHolding(response.id, amount);
 									} else {
-										updateHolding(id, amount);
+										updateHolding(response.id, amount);
 									}
 								} else {
 									Notify.error({
-										title:"Error",
-										description:"Couldn't add " + symbol + "."
+										title: "Error",
+										description: "Couldn't add " + symbol + "."
 									});
 								}
 							}).catch(e => {
 								console.log(e);
 								Notify.error({
-									title:"Error",
-									description:"Couldn't find " + symbol + "."
+									title: "Error",
+									description: "Couldn't find " + symbol + "."
 								});
 							});
 						}, index * 4000);
 
 						Notify.info({
-							title:"Adding " + symbol,
-							description:"Adding asset to holdings."
-						});
-					} else {
-						Notify.error({
-							title:symbol + " Not Found",
-							description:symbol + " isn't listed on CoinGecko."
+							title: "Adding " + symbol,
+							description: "Adding asset to holdings."
 						});
 					}
 				});
 			}).catch(e => {
 				console.log(e);
 				Notify.error({
-					title:"Error",
-					description:"Couldn't fetch balance."
+					title: "Error",
+					description: "Couldn't fetch balance."
 				});
 			});
 		} else {
 			Notify.error({
-				title:"Error",
-				description:"Please provide an address to fetch the balance of."
+				title: "Error",
+				description: "Please provide an address to fetch the balance of."
 			});
 		}
 	});
@@ -1303,7 +1246,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 									hidePopup();
 
 									setTimeout(() => {
-										let html = '<span class="message">Please scan the QR code with the CENTCEX mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
+										let html = '<span class="message">Please scan the QR code with the Centcex-Portfolio mobile app from the login screen.</span><div class="popup-canvas-wrapper"></div><button class="reject" id="popup-dismiss">Dismiss</button>';
 				
 										popup("QR Login Code", html, "400px", "540px");
 
@@ -4595,8 +4538,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	function getCoinID(key, value) {
 		return new Promise((resolve, reject) => {
 			try {
-				if(!empty(noAPI)) {
-					noAPI.readCoins({ [key]:value }).then(response => {
+				if (!empty(noAPI)) {
+					noAPI.readCoins({ [key]: value }).then(response => {
 						resolve(response);
 					}).catch(e => {
 						console.log(e);
@@ -4608,19 +4551,45 @@ document.addEventListener("DOMContentLoaded", async () => {
 					let xhr = new XMLHttpRequest();
 
 					xhr.addEventListener("readystatechange", () => {
-						if(xhr.readyState === XMLHttpRequest.DONE) {
-							if(validJSON(xhr.responseText)) {
-								resolve(JSON.parse(xhr.responseText));
+						if (xhr.readyState === XMLHttpRequest.DONE) {
+							if (validJSON(xhr.responseText)) {
+								let data = JSON.parse(xhr.responseText);
+
+								if (data.coins.length > 0) {
+									data.coins.forEach(coin => {
+										if (coin.symbol === value) {
+
+											let xhr1 = new XMLHttpRequest();
+
+											xhr1.addEventListener("readystatechange", () => {
+												if (xhr1.readyState === XMLHttpRequest.DONE) {
+													if (validJSON(xhr1.responseText)) {
+														resolve(JSON.parse(xhr1.responseText));
+													} else {
+														reject("Invalid JSON.");
+													}
+												}
+											});
+
+											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + coin.id, true);
+											xhr1.send();
+										}
+									});
+								}
+								else {
+									reject("No token found");
+								}
+
 							} else {
 								reject("Invalid JSON.");
 							}
 						}
 					});
 
-					xhr.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + value, true);
+					xhr.open("GET", "https://api.coingecko.com/api/v3/search?query=" + value, true);
 					xhr.send();
 				}
-			} catch(e) {
+			} catch (e) {
 				reject(e);
 			}
 		});

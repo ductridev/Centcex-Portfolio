@@ -1,5 +1,5 @@
 {
-  "name": "Cryptofolio",
+  "name": "Centcex-Portfolio",
   "version": "1.0.0",
   "description": "A cryptocurrency portfolio application.",
   "main": "app/server.js",
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Xtrendence/Cryptofolio#readme",
   "build": {
-    "productName": "CENTCEX",
+    "productName": "Centcex-Portfolio",
     "appId": "com.centcex.centcex",
     "asar": true,
     "mac": {

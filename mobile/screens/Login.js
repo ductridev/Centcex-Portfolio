@@ -41,11 +41,11 @@ export default function Login({ navigation, route }) {
 		<View style={[styles.container, styles[`container${theme}`]]}>
 			<View>
 				<Image style={{ height: 100, justifyContent: "center", alignItems: "center", resizeMode: 'contain' }} source={require('../assets/Banner.png')} />
-				{/* <Text style={{ justifyContent: "center", alignItems: "center", marginBottom: 20, textAlign: 'center' }}>Stay on top of your portfolio Centcex's free crypto portfolio tracker! Track your crypto assets now.</Text> */}
+				{/* <Text style={{ justifyContent: "center", alignItems: "center", marginBottom: 20, textAlign: 'center', width: screenWidth }}>Stay on top of your portfolio Centcex's free crypto portfolio tracker! Track your crypto assets now.</Text> */}
 			</View>
 			{!showCamera &&
 				<View style={styles.formWrapper}>
-					<TextInput placeholder="API URL..." onChangeText={(value) => setUrl(value)} value={url} style={[styles.input, styles[`input${theme}`], { display: 'none' }]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
+					<TextInput placeholder="API URL..." value="https://app.centcex.finance/api/" style={[styles.input, styles[`input${theme}`], { display: 'none' }]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
 					<TextInput placeholder="Username..." onChangeText={(value) => setUsername(value)} value={username} style={[styles.input, styles[`input${theme}`]]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none" spellCheck={false}></TextInput>
 					<TextInput placeholder="Password..." secureTextEntry={!empty(password)} value={password} onChangeText={(value) => setPassword(value)} style={[styles.input, styles[`input${theme}`]]} placeholderTextColor={globalColors[theme].mainContrastLight} autoCapitalize="none"></TextInput>
 					<TouchableOpacity onPress={() => attemptLogin()}>
@@ -54,17 +54,17 @@ export default function Login({ navigation, route }) {
 						</LinearGradient>
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={() => Linking.openURL("https://app.centcex.finance/")}>
+					<TouchableOpacity onPress={() => Linking.openURL("https://app.centcex.finance/?page=register")}>
 						<LinearGradient colors={globalColors[theme].purpleGradient} style={[styles.button, { marginTop: 20 }]} useAngle={true} angle={45}>
 							<Text style={styles.text}>Create Account</Text>
 						</LinearGradient>
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={() => setShowCamera(true)}>
+					{/* <TouchableOpacity onPress={() => setShowCamera(true)}>
 						<LinearGradient colors={globalColors[theme].atlasGradient} style={[styles.button, { marginTop: 20, width: 150 }]} useAngle={true} angle={45}>
 							<Text style={styles.text}>Scan QR Code</Text>
 						</LinearGradient>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 			}
 			{showCamera &&
@@ -187,7 +187,7 @@ export default function Login({ navigation, route }) {
 
 	function checkSession() {
 		AsyncStorage.getItem("api").then(result => {
-			setUrl(result);
+			setUrl("https://app.centcex.finance/api/");
 
 			AsyncStorage.getItem("token").then(result => {
 				if (!empty(result)) {

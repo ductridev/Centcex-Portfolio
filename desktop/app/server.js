@@ -15,7 +15,7 @@ const store = new Store();
 
 app.requestSingleInstanceLock();
 app.disableHardwareAcceleration();
-app.name = "CENTCEX";
+app.name = "Centcex-Portfolio";
 
 app.on("ready", function() {
 	const debugMode = false;
