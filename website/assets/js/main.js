@@ -631,9 +631,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 							document.getElementsByClassName("popup-list")[i].remove();
 						}
 
-						if ("id" in response) {
+						if (response.id) {
 							addHolding(response.id, amount);
-						} else if ("matches" in response) {
+						} else if (response.matches) {
 							Notify.info({
 								title: "Multiple Results",
 								description: "There are " + response.matches.length + " coins with that symbol. Please choose one from the list.",
@@ -1415,9 +1415,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 						document.getElementsByClassName("popup-list")[i].remove();
 					}
 
-					if ("id" in response) {
+					if (response.id) {
 						addWatchlist(response.id, response.symbol);
-					} else if ("matches" in response) {
+					} else if (response.matches) {
 						Notify.info({
 							title: "Multiple Results",
 							description: "There are " + response.matches.length + " coins with that symbol. Please choose one from the list.",
@@ -4143,7 +4143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 						document.getElementsByClassName("popup-list")[i].remove();
 					}
 
-					if ("id" in response) {
+					if (response.id) {
 						let id = response.id;
 						if (action === "create") {
 							addActivity(id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to);
@@ -4166,7 +4166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 								console.log(e);
 							});
 						}
-					} else if ("matches" in response) {
+					} else if (response.matches) {
 						Notify.info({
 							title: "Multiple Results",
 							description: "There are " + response.matches.length + " coins with that symbol. Please choose one from the list.",
@@ -4555,7 +4555,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 								if (data.coins.length > 0) {
 									data.coins.forEach(coin => {
 										if (coin.symbol === value) {
-
+											let _coin = key == 'symbol' ? coin.symbol.trim().toLowerCase() : coin.id;
 											let xhr1 = new XMLHttpRequest();
 
 											xhr1.addEventListener("readystatechange", () => {
@@ -4568,7 +4568,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 												}
 											});
 
-											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + coin.id, true);
+											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + _coin, true);
 											xhr1.send();
 										}
 									});

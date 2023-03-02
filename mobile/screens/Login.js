@@ -135,7 +135,7 @@ export default function Login({ navigation, route }) {
 
 				await AsyncStorage.removeItem("NoAPIMode");
 
-				await AsyncStorage.setItem("api", response.api);
+				await AsyncStorage.setItem("api", url);
 				await AsyncStorage.setItem("username", response.username);
 				await AsyncStorage.setItem("token", token);
 
@@ -187,8 +187,6 @@ export default function Login({ navigation, route }) {
 
 	function checkSession() {
 		AsyncStorage.getItem("api").then(result => {
-			setUrl("https://app.centcex.finance/api/");
-
 			AsyncStorage.getItem("token").then(result => {
 				if (!empty(result)) {
 					attemptLogin(result);

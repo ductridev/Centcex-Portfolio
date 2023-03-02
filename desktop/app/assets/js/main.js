@@ -4122,10 +4122,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 			let from = popupFrom.value;
 			let to = popupTo.value;
 			
-			if(isNaN(amount) || isNaN(fee) || (isNaN(price) && !empty(price))) {
+			if(empty(symbol) && empty(date) && isNaN(amount)) {
 				Notify.error({
 					title:"Error",
-					description:"The amount, fee, and price fields must be numbers."
+					description:"The amount, symbol and date fields must be filled correct."
 				});
 			} else {
 				let key = "symbol";
@@ -4557,8 +4557,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 								if (data.coins.length > 0) {
 									data.coins.forEach(coin => {
-										if (coin.symbol === value) {
-
+										if (coin.symbol.trim().toLowerCase() === value) {
+											let _coin = key == 'symbol' ? coin.symbol.trim().toLowerCase() : coin.id;
 											let xhr1 = new XMLHttpRequest();
 
 											xhr1.addEventListener("readystatechange", () => {
@@ -4571,7 +4571,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 												}
 											});
 
-											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + coin.id, true);
+											xhr1.open("GET", api + "coins/read.php?token=" + sessionToken + "&username=" + sessionUsername + "&" + key + "=" + _coin, true);
 											xhr1.send();
 										}
 									});

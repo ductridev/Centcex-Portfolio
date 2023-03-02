@@ -207,9 +207,9 @@ export default function Dashboard({ navigation }) {
 			let value = symbol.trim().toLowerCase();
 
 			getCoinID(key, value).then(async response => {
-				if ("id" in response) {
+				if (response.id) {
 					processWatchlist(response.id, value);
-				} else if ("matches" in response) {
+				} else if (response.matches) {
 					let matches = response.matches;
 
 					let data = [];

@@ -121,32 +121,39 @@ export async function getCoinID(key, value) {
 				headers: {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
-			}).then((data) => {
-				data = JSON.parse(data);
-				if (data.coins.length > 0) {
-					data.coins.forEach(coin => {
-						if (coin.symbol === value) {
-							let endpoint = api + "coins/read.php?" + key + "=" + coin.id + "&token=" + token + "&username=" + username;
-
-							fetch(endpoint, {
-								method: "GET",
-								headers: {
-									Accept: "application/json", "Content-Type": "application/json"
-								}
-							})
-								.then((json) => {
-									return json.json();
-								})
-								.then(async (response) => {
-									resolve(response);
-								}).catch(error => {
-									console.log(error);
-									reject(error);
-								});
-						}
-					});
-				}
 			})
+				.then(function (response) {
+					return response.json();
+				})
+				.then((data) => {
+					if (data.coins.length > 0) {
+						data.coins.forEach(coin => {
+							if (coin.symbol.trim().toLowerCase() === value) {
+								let _coin = key == 'symbol' ? coin.symbol.trim().toLowerCase() : coin.id;
+								let endpoint = api + "coins/read.php?" + key + "=" + _coin + "&token=" + token + "&username=" + username;
+
+								fetch(endpoint, {
+									method: "GET",
+									headers: {
+										Accept: "application/json", "Content-Type": "application/json"
+									}
+								})
+									.then((json) => {
+										return json.json();
+									})
+									.then(async (response) => {
+										resolve(response);
+									}).catch(error => {
+										console.log(error);
+										reject(error);
+									});
+							}
+						});
+					}
+					else {
+						reject("No coins is found");
+					}
+				})
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
 			if (validJSON(data)) {

@@ -250,23 +250,11 @@ export default function Market({ navigation }) {
 				setCoinID(id);
 				setCoinSymbol(info.symbol);
 
-				// let months = data.months;
+				let months = data.months;
 				let prices = data.prices;
 
-				var data = [];
-				var labels = [];
-
-				const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-					"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-				];
-
-				prices.forEach(_data => {
-					labels.indexOf(monthNames[new Date(_data[0]).getUTCMonth()] + ' ' + new Date(_data[0]).getUTCFullYear()) === -1 ? labels.push(monthNames[new Date(_data[0]).getUTCMonth()] + ' ' + new Date(_data[0]).getUTCFullYear()) : '';
-					data.push(_data[1]);
-				})
-
-				setChartLabels(labels);
-				setChartData(data);
+				setChartLabels(months);
+				setChartData(prices);
 				setChartSegments(4);
 
 				let ath = parseFloat(info.market_data.ath[currency]);
@@ -309,19 +297,11 @@ export default function Market({ navigation }) {
 			parsed.prices.push(price);
 
 			let date = new Date(time);
-			let month = date.getMonth();
+			let month = date.getUTCMonth();
 			let monthName = months[month];
+			let year = date.getUTCFullYear();
 
-			let lastMonth = parsed.months.slice(key - 31, key);
-			if (key - 31 < 0) {
-				lastMonth = parsed.months.slice(0, key);
-			}
-
-			if (!lastMonth.includes(monthName)) {
-				parsed.months.push(monthName);
-			} else {
-				parsed.months.push("");
-			}
+			parsed.months.indexOf(monthName + ' ' + year) === -1 ? parsed.months.push(monthName + ' ' + year) : '';
 		});
 
 		return parsed;
@@ -403,7 +383,7 @@ export default function Market({ navigation }) {
 					let highlightText = `cellHighlight${capitalizeFirstLetter(highlightPriceChange)}${changeType}${theme}`;
 
 					data.push(
-						<TouchableOpacity key={epoch() + key} onPress={() => { openModal(id, symbol, coin.current_price) }}>
+						<TouchableOpacity key={epoch() + key} onPress={() => { openModal(id, symbol, parseFloat(coin.current_price)) }}>
 							<View style={[styles.row, rank % 2 ? { ...styles.rowOdd, ...styles[`rowOdd${theme}`] } : null, styles[highlightRow]]}>
 								<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellRank, styles[highlightText]]} ellipsizeMode="tail">{rank}</Text>
 								<Image style={styles.cellImage} source={{ uri: icon }} />

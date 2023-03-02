@@ -1,6 +1,6 @@
 {
   "name": "Centcex-Portfolio",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "A cryptocurrency portfolio application.",
   "main": "app/server.js",
   "scripts": {

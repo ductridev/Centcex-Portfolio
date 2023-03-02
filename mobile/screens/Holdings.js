@@ -907,9 +907,9 @@ export default function Holdings({ navigation }) {
 			}
 
 			getCoinID(key, value).then(async response => {
-				if("id" in response) {
+				if(response.id) {
 					processHolding(response.id, amount);
-				} else if("matches" in response) {
+				} else if(response.matches) {
 					let matches = response.matches;
 
 					let data = [];
@@ -933,8 +933,11 @@ export default function Holdings({ navigation }) {
 					setShowCoinList(true);
 					setModalMessage("Please select a coin from the list.");
 				}
+				else{
+					setModalMessage("No coin is found.");
+				}
 			}).catch(error => {
-				console.log(error);
+				setModalMessage(error);
 			});
 		} else {
 			setModalMessage("Both fields must be filled out.");

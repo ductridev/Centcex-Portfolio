@@ -48,13 +48,13 @@ export default function Activity({ navigation }) {
 
 	useEffect(() => {
 		setInterval(() => {
-			if(navigation.isFocused()) {
+			if (navigation.isFocused()) {
 				getActivity();
 			}
 		}, 15000);
 
 		navigation.addListener("focus", () => {
-			if(navigation.isFocused()) {
+			if (navigation.isFocused()) {
 				setTimeout(() => {
 					setPageKey(epoch());
 					getActivity();
@@ -78,70 +78,70 @@ export default function Activity({ navigation }) {
 	}, []);
 
 	return (
-		<ScrollView style={[styles.page, styles[`page${theme}`]]} key={pageKey} contentContainerStyle={{ padding:20 }} nestedScrollEnabled={true} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[globalColors[theme].accentFirst]} progressBackgroundColor={globalColors[theme].mainFirst}/>}>
-			<Modal animationType="fade" visible={(showDatePicker)} onRequestClose={() => { setModal(true); setShowDatePicker(false)}} transparent={false}>
-				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{ padding:20 }}>
-					<DatePicker 
-						onSelectedChange={(date) => { changeDate(date)}} 
+		<ScrollView style={[styles.page, styles[`page${theme}`]]} key={pageKey} contentContainerStyle={{ padding: 20 }} nestedScrollEnabled={true} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[globalColors[theme].accentFirst]} progressBackgroundColor={globalColors[theme].mainFirst} />}>
+			<Modal animationType="fade" visible={(showDatePicker)} onRequestClose={() => { setModal(true); setShowDatePicker(false) }} transparent={false}>
+				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{ padding: 20 }}>
+					<DatePicker
+						onSelectedChange={(date) => { changeDate(date) }}
 						style={styles.calendar}
 						options={{
-							backgroundColor:globalColors[theme].mainFirst,
-							textHeaderColor:globalColors[theme].accentSecond,
-							textDefaultColor:globalColors[theme].mainContrast,
-							selectedTextColor:globalColors[theme].accentContrast,
-							mainColor:globalColors[theme].accentSecond,
-							textSecondaryColor:globalColors[theme].accentFirst,
-							borderColor:globalColors[theme].accentSecond,
+							backgroundColor: globalColors[theme].mainFirst,
+							textHeaderColor: globalColors[theme].accentSecond,
+							textDefaultColor: globalColors[theme].mainContrast,
+							selectedTextColor: globalColors[theme].accentContrast,
+							mainColor: globalColors[theme].accentSecond,
+							textSecondaryColor: globalColors[theme].accentFirst,
+							borderColor: globalColors[theme].accentSecond,
 						}}
 					/>
-					<View style={[styles.buttonWrapper, { justifyContent:"center", width:"100%", marginTop:20 }]}>
-						<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { setModal(true); setShowDatePicker(false)}}>
+					<View style={[styles.buttonWrapper, { justifyContent: "center", width: "100%", marginTop: 20 }]}>
+						<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { setModal(true); setShowDatePicker(false) }}>
 							<Text style={styles.text}>Cancel</Text>
 						</TouchableOpacity>
 					</View>
 				</ScrollView>
 			</Modal>
-			<Modal animationType="fade" visible={(modal && !showDatePicker)} onRequestClose={() => { hideModal()}} transparent={false}>
-				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{ padding:20 }}>
+			<Modal animationType="fade" visible={(modal && !showDatePicker)} onRequestClose={() => { hideModal() }} transparent={false}>
+				<ScrollView style={[styles.modalScroll, styles[`modalScroll${theme}`]]} contentContainerStyle={{ padding: 20 }}>
 					<View style={styles.modalWrapper}>
 						<View stlye={[styles.modal, styles[`modal${theme}`]]}>
-							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Symbol... (e.g. BTC)"} onChangeText={(value) => { setCoinSymbol(value)}} value={coinSymbol} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-							<View style={[styles.inlineContainer, { marginBottom:0 }]}>
-								<TextInput style={[styles.input, styles[`input${theme}`], { width:screenWidth - 240, marginRight:15 }]} placeholder={"Date... (e.g. 2021/04/18 04:20)"} onChangeText={(value) => { setEventDate(value)}} value={eventDate} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-								<TouchableOpacity style={[styles.iconButton, styles[`iconButton${theme}`]]} onPress={() => { setShowDatePicker(true)}}>
+							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Symbol... (e.g. BTC)"} onChangeText={(value) => { setCoinSymbol(value) }} value={coinSymbol} placeholderTextColor={globalColors[theme].mainContrastLight} />
+							<View style={[styles.inlineContainer, { marginBottom: 0 }]}>
+								<TextInput style={[styles.input, styles[`input${theme}`], { width: screenWidth - 240, marginRight: 15 }]} placeholder={"Date... (e.g. 2021/04/18 04:20)"} onChangeText={(value) => { setEventDate(value) }} value={eventDate} placeholderTextColor={globalColors[theme].mainContrastLight} />
+								<TouchableOpacity style={[styles.iconButton, styles[`iconButton${theme}`]]} onPress={() => { setShowDatePicker(true) }}>
 									<View style={styles.iconWrapper}>
 										<Icon name="calendar" size={26} color={globalColors[theme].mainContrastLight}></Icon>
 									</View>
 								</TouchableOpacity>
 							</View>
 							<View style={styles.inlineContainer}>
-								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "buy") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("buy")}}>
+								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "buy") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("buy") }}>
 									<Text style={[styles.buttonText, styles[`buttonText${theme}`], (eventType === "buy") ? styles.buttonTextActive : null]}>Buy</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "sell") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("sell")}}>
+								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "sell") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("sell") }}>
 									<Text style={[styles.buttonText, styles[`buttonText${theme}`], (eventType === "sell") ? styles.buttonTextActive : null]}>Sell</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "transfer") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("transfer")}}>
+								<TouchableOpacity style={[styles.inlineButton, styles[`inlineButton${theme}`], (eventType === "transfer") ? styles.inlineButtonActive : null]} onPress={() => { setEventType("transfer") }}>
 									<Text style={[styles.buttonText, styles[`buttonText${theme}`], (eventType === "transfer") ? styles.buttonTextActive : null]}>Transfer</Text>
 								</TouchableOpacity>
 							</View>
-							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Amount... (e.g. 2.5)"} onChangeText={(value) => { setCoinAmount(value)}} value={coinAmount} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Fee... (e.g. 0.25)"} onChangeText={(value) => { setEventFee(value)}} value={eventFee} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Notes... (e.g. Rent)"} onChangeText={(value) => { setEventNotes(value)}} value={eventNotes} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-							{ (eventType !== "transfer") &&
+							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Amount... (e.g. 2.5)"} onChangeText={(value) => { setCoinAmount(value) }} value={coinAmount} placeholderTextColor={globalColors[theme].mainContrastLight} />
+							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Fee... (e.g. 0.25)"} onChangeText={(value) => { setEventFee(value) }} value={eventFee} placeholderTextColor={globalColors[theme].mainContrastLight} />
+							<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Notes... (e.g. Rent)"} onChangeText={(value) => { setEventNotes(value) }} value={eventNotes} placeholderTextColor={globalColors[theme].mainContrastLight} />
+							{(eventType !== "transfer") &&
 								<View>
-									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Exchange... (e.g. Coinbase)"} onChangeText={(value) => { setEventExchange(value)}} value={eventExchange} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Pair... (e.g. BTC/USDT)"} onChangeText={(value) => { setCoinPair(value)}} value={coinPair} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Price... (e.g. 59000)"} onChangeText={(value) => { setCoinPrice(value)}} value={coinPrice} placeholderTextColor={globalColors[theme].mainContrastLight}/>
+									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Exchange... (e.g. Coinbase)"} onChangeText={(value) => { setEventExchange(value) }} value={eventExchange} placeholderTextColor={globalColors[theme].mainContrastLight} />
+									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Pair... (e.g. BTC/USDT)"} onChangeText={(value) => { setCoinPair(value) }} value={coinPair} placeholderTextColor={globalColors[theme].mainContrastLight} />
+									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"Price... (e.g. 59000)"} onChangeText={(value) => { setCoinPrice(value) }} value={coinPrice} placeholderTextColor={globalColors[theme].mainContrastLight} />
 								</View>
 							}
-							{ (eventType === "transfer") &&
+							{(eventType === "transfer") &&
 								<View>
-									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"From... (e.g. Kraken)"} onChangeText={(value) => { setEventFrom(value)}} value={eventFrom} placeholderTextColor={globalColors[theme].mainContrastLight}/>
-									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"To... (e.g. Cold Wallet)"} onChangeText={(value) => { setEventTo(value)}} value={eventTo} placeholderTextColor={globalColors[theme].mainContrastLight}/>
+									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"From... (e.g. Kraken)"} onChangeText={(value) => { setEventFrom(value) }} value={eventFrom} placeholderTextColor={globalColors[theme].mainContrastLight} />
+									<TextInput style={[styles.input, styles[`input${theme}`]]} placeholder={"To... (e.g. Cold Wallet)"} onChangeText={(value) => { setEventTo(value) }} value={eventTo} placeholderTextColor={globalColors[theme].mainContrastLight} />
 								</View>
 							}
-							{ showCoinList && !empty(coinList) &&
+							{showCoinList && !empty(coinList) &&
 								<ScrollView style={[styles.coinList, styles[`coinList${theme}`]]} nestedScrollEnabled={true}>
 									{
 										coinList.map(row => {
@@ -150,20 +150,20 @@ export default function Activity({ navigation }) {
 									}
 								</ScrollView>
 							}
-							{ action !== "create" &&
-								<TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { deleteActivity(eventID)}}>
+							{action !== "create" &&
+								<TouchableOpacity style={[styles.button, styles.buttonDelete]} onPress={() => { deleteActivity(eventID) }}>
 									<Text style={styles.text}>Remove Activity</Text>
 								</TouchableOpacity>
 							}
 							<View style={styles.buttonWrapper}>
-								<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { hideModal()}}>
+								<TouchableOpacity style={[styles.button, styles[`button${theme}`]]} onPress={() => { hideModal() }}>
 									<Text style={styles.text}>Cancel</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={[styles.button, styles.buttonConfirm, styles[`buttonConfirm${theme}`]]} onPress={() => { addActivity(coinID, coinSymbol, eventDate, coinAmount, eventFee, eventNotes, eventType, eventExchange, coinPair, coinPrice, eventFrom, eventTo) }}>
 									<Text style={styles.text}>Confirm</Text>
 								</TouchableOpacity>
 							</View>
-							{ !empty(modalMessage) &&
+							{!empty(modalMessage) &&
 								<View style={styles.modalMessageWrapper}>
 									<Text style={styles.modalMessage}>{modalMessage}</Text>
 								</View>
@@ -173,18 +173,18 @@ export default function Activity({ navigation }) {
 				</ScrollView>
 			</Modal>
 			<ScrollView ref={activityRef} style={[styles.tableWrapper, styles[`tableWrapper${theme}`]]} nestedScrollEnabled={true}>
-				{ !empty(activityData) &&
+				{!empty(activityData) &&
 					activityData.map(row => {
 						return row;
 					})
 				}
 			</ScrollView>
-			<LinearGradient style={[styles.card, { marginTop:20 }]} colors={globalColors[theme].atlasGradient} useAngle={true} angle={45}>
-				<TouchableOpacity onPress={() => { setAction("create"); setModal(true)}}>
+			<LinearGradient style={[styles.card, { marginTop: 20 }]} colors={globalColors[theme].atlasGradient} useAngle={true} angle={45}>
+				<TouchableOpacity onPress={() => { setAction("create"); setModal(true) }}>
 					<Text style={[styles.cardText, styles[`cardText${theme}`]]}>Record Event</Text>
 				</TouchableOpacity>
 			</LinearGradient>
-			<StatusBar style={theme === "Dark" ? "light" : "dark"}/>
+			<StatusBar style={theme === "Dark" ? "light" : "dark"} />
 		</ScrollView>
 	);
 
@@ -216,32 +216,32 @@ export default function Activity({ navigation }) {
 	function addActivity(id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to) {
 		let valid = true;
 		let functionArguments = [id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to];
-		for(let i = 0; i < functionArguments.length; i++) {
+		for (let i = 0; i < functionArguments.length; i++) {
 			let argument = functionArguments[i];
-			if(!empty(argument) && argument.includes(",")) {
+			if (!empty(argument) && argument.includes(",")) {
 				valid = false;
 			}
 		}
 
-		if(valid) {
+		if (valid) {
 			setModalMessage("Checking coin...");
 
 			let key = "symbol";
 			let value = symbol.trim().toLowerCase();
 
-			if(action === "update") {
+			if (action === "update") {
 				key = "id";
 				value = id.trim().toLowerCase();
 			}
 
 			getCoinID(key, value).then(async response => {
-				if("id" in response) {
-					if(action === "create") {
+				if (response.id) {
+					if (action === "create") {
 						createActivity(response.id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to);
 					} else {
 						updateActivity(eventID, response.id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to);
 					}
-				} else if("matches" in response) {
+				} else if (response.matches) {
 					let matches = response.matches;
 
 					let data = [];
@@ -253,9 +253,9 @@ export default function Activity({ navigation }) {
 
 						data.push(
 							<TouchableOpacity key={epoch() + id} onPress={() => { (action === "create") ? createActivity(id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to) : updateActivity(eventID, id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to) }}>
-								<View style={[styles.row, key % 2 ? {...styles.rowOdd, ...styles[`rowOdd${theme}`]} : null]}>
+								<View style={[styles.row, key % 2 ? { ...styles.rowOdd, ...styles[`rowOdd${theme}`] } : null]}>
 									<Text style={[styles.cellText, styles[`cellText${theme}`]]} ellipsizeMode="tail">{symbol.toUpperCase()}</Text>
-									<Text style={[styles.cellText, styles[`cellText${theme}`], { marginLeft:20 }]} ellipsizeMode="tail">{capitalizeFirstLetter(id)}</Text>
+									<Text style={[styles.cellText, styles[`cellText${theme}`], { marginLeft: 20 }]} ellipsizeMode="tail">{capitalizeFirstLetter(id)}</Text>
 								</View>
 							</TouchableOpacity>
 						);
@@ -264,6 +264,9 @@ export default function Activity({ navigation }) {
 					setCoinList(data);
 					setShowCoinList(true);
 					setModalMessage("Please select a coin from the list.");
+				}
+				else {
+					setModalMessage("No coin is found.");
 				}
 			}).catch(error => {
 				console.log(error);
@@ -274,15 +277,15 @@ export default function Activity({ navigation }) {
 	}
 
 	async function createActivity(id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to) {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "activity/create.php";
 
-			let body = { token:token, username:username, id:id, symbol:symbol, date:date, amount:amount, fee:fee, notes:notes, type:type, exchange:exchange, pair:pair, price:price, from:from, to:to };
-
+			let body = { token: token, username: username, id: id, symbol: symbol, date: date, amount: amount, fee: fee, notes: notes, type: type, exchange: exchange, pair: pair, price: price, from: from, to: to };
+			
 			fetch(endpoint, {
 				body: JSON.stringify(body),
 				method: "POST",
@@ -290,23 +293,23 @@ export default function Activity({ navigation }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if(!empty(response.error)) {
-					setModalMessage(response.error);
-				} else {
-					hideModal();
-					getActivity();
-				}
-			}).catch(error => {
-				setModalMessage("Couldn't record activity. Make sure all fields are filled out.");
-				console.log(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if (response.error) {
+						setModalMessage(response.error);
+					} else {
+						hideModal();
+						getActivity();
+					}
+				}).catch(error => {
+					setModalMessage("Couldn't record activity. Make sure all fields are filled out.");
+					console.log(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -315,7 +318,7 @@ export default function Activity({ navigation }) {
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.createActivity(id, symbol, date, type, amount, fee, notes, exchange, pair, price, from, to);
 
-			if(!empty(response.error)) {
+			if (!empty(response.error)) {
 				setModalMessage(response.error);
 			} else {
 				hideModal();
@@ -323,16 +326,16 @@ export default function Activity({ navigation }) {
 			}
 		}
 	}
-	
+
 	async function updateActivity(txID, id, symbol, date, amount, fee, notes, type, exchange, pair, price, from, to) {
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
 
 			let endpoint = api + "activity/update.php";
 
-			let body = { token:token, username:username, txID:txID, id:id, symbol:symbol, date:date, amount:amount, fee:fee, notes:notes, type:type, exchange:exchange, pair:pair, price:price, from:from, to:to };
+			let body = { token: token, username: username, txID: txID, id: id, symbol: symbol, date: date, amount: amount, fee: fee, notes: notes, type: type, exchange: exchange, pair: pair, price: price, from: from, to: to };
 
 			fetch(endpoint, {
 				body: JSON.stringify(body),
@@ -341,23 +344,23 @@ export default function Activity({ navigation }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((json) => {
-				return json.json();
-			})
-			.then(async (response) => {
-				if(!empty(response.error)) {
-					setModalMessage(response.error);
-				} else {
-					hideModal();
-					getActivity();
-				}
-			}).catch(error => {
-				setModalMessage("Couldn't update activity. Make sure all fields are filled out.");
-				console.log(error);
-			});
+				.then((json) => {
+					return json.json();
+				})
+				.then(async (response) => {
+					if (!empty(response.error)) {
+						setModalMessage(response.error);
+					} else {
+						hideModal();
+						getActivity();
+					}
+				}).catch(error => {
+					setModalMessage("Couldn't update activity. Make sure all fields are filled out.");
+					console.log(error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -366,7 +369,7 @@ export default function Activity({ navigation }) {
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let response = noAPI.updateActivity(txID, id, symbol, date, type, amount, fee, notes, exchange, pair, price, from, to);
 
-			if(!empty(response.error)) {
+			if (!empty(response.error)) {
 				setModalMessage(response.error);
 			} else {
 				hideModal();
@@ -376,15 +379,15 @@ export default function Activity({ navigation }) {
 	}
 
 	async function deleteActivity(txID) {
-		if(!empty(txID)) {
-			if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (!empty(txID)) {
+			if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 				let api = await AsyncStorage.getItem("api");
 				let token = await AsyncStorage.getItem("token");
 				let username = await AsyncStorage.getItem("username");
 
 				let endpoint = api + "activity/delete.php";
 
-				let body = { token:token, username:username, txID:txID };
+				let body = { token: token, username: username, txID: txID };
 
 				fetch(endpoint, {
 					method: "DELETE",
@@ -393,22 +396,22 @@ export default function Activity({ navigation }) {
 						Accept: "application/json", "Content-Type": "application/json"
 					}
 				})
-				.then((json) => {
-					return json.json();
-				})
-				.then(async (response) => {
-					if("message" in response) {
-						hideModal();
-						getActivity();
-					} else {
-						setModalMessage(response.error);
-					}
-				}).catch(error => {
-					console.log(error);
-				});
+					.then((json) => {
+						return json.json();
+					})
+					.then(async (response) => {
+						if ("message" in response) {
+							hideModal();
+							getActivity();
+						} else {
+							setModalMessage(response.error);
+						}
+					}).catch(error => {
+						console.log(error);
+					});
 			} else {
 				let data = await AsyncStorage.getItem("NoAPI");
-				if(validJSON(data)) {
+				if (validJSON(data)) {
 					data = JSON.parse(data);
 				} else {
 					data = {};
@@ -417,7 +420,7 @@ export default function Activity({ navigation }) {
 				let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 				let response = noAPI.deleteActivity(txID);
 
-				if("message" in response) {
+				if ("message" in response) {
 					hideModal();
 					getActivity();
 				} else {
@@ -431,10 +434,10 @@ export default function Activity({ navigation }) {
 
 	async function getActivity() {
 		console.log("Activity - Getting Activity - " + epoch());
-		
+
 		let theme = empty(await AsyncStorage.getItem("theme")) ? "Light" : await AsyncStorage.getItem("theme");
 
-		if(empty(await AsyncStorage.getItem("NoAPIMode"))) {
+		if (empty(await AsyncStorage.getItem("NoAPIMode"))) {
 			let api = await AsyncStorage.getItem("api");
 			let token = await AsyncStorage.getItem("token");
 			let username = await AsyncStorage.getItem("username");
@@ -447,65 +450,65 @@ export default function Activity({ navigation }) {
 					Accept: "application/json", "Content-Type": "application/json"
 				}
 			})
-			.then((response) => {
-				return response.json();
-			})
-			.then(async (events) => {
-				if(Object.keys(events).length === 0) {
-					if(navigation.isFocused()) {
-						setActivityData([<Text key="empty" style={[styles.loadingText, styles.headerText, styles[`headerText${theme}`], { marginLeft:20 }]}>No Activity Found...</Text>]);
-					}
-				} else {
-					events = sortActivity(events);
+				.then((response) => {
+					return response.json();
+				})
+				.then(async (events) => {
+					if (Object.keys(events).length === 0) {
+						if (navigation.isFocused()) {
+							setActivityData([<Text key="empty" style={[styles.loadingText, styles.headerText, styles[`headerText${theme}`], { marginLeft: 20 }]}>No Activity Found...</Text>]);
+						}
+					} else {
+						events = sortActivity(events);
 
-					let data = [];
+						let data = [];
 
-					let index = 0;
+						let index = 0;
 
-					Object.keys(events).map(txID => {
-						index += 1;
+						Object.keys(events).map(txID => {
+							index += 1;
 
-						let activity = events[txID];
-		
-						let id = activity.id;
-						let symbol = activity.symbol.toUpperCase();
-						let date = activity.date;
-						let amount = activity.amount;
-						let fee = activity.fee?.toString();
-						let notes = activity.notes;
-						let type = capitalizeFirstLetter(activity.type);
-						let exchange = activity.exchange;
-						let pair = activity.pair;
-						let price = activity.price?.toString();
-						let from = activity.from;
-						let to = activity.to;
+							let activity = events[txID];
 
-						data.push(
-							<TouchableOpacity onPress={() => { setEventID(txID); setCoinID(id); setCoinSymbol(symbol); setEventDate(date); setEventType(type.toLowerCase()); setCoinAmount(amount); setEventFee(fee); setEventNotes(notes); setEventExchange(exchange); setCoinPair(pair); setCoinPrice(price); setEventFrom(from); setEventTo(to); setAction("update"); setModal(true)}} key={epoch() + txID}>
-								<View style={[styles.row, index % 2 ? null : {...styles.rowEven, ...styles[`rowEven${theme}`]}]}>
-									<View style={[styles.column, styles.columnLeft]}>
-										<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellDate]} ellipsizeMode="tail">{date}</Text>
-										<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellType]} ellipsizeMode="tail">{type} - {symbol}</Text>
+							let id = activity.id;
+							let symbol = activity.symbol.toUpperCase();
+							let date = activity.date;
+							let amount = activity.amount;
+							let fee = activity.fee?.toString();
+							let notes = activity.notes;
+							let type = capitalizeFirstLetter(activity.type);
+							let exchange = activity.exchange;
+							let pair = activity.pair;
+							let price = activity.price?.toString();
+							let from = activity.from;
+							let to = activity.to;
+
+							data.push(
+								<TouchableOpacity onPress={() => { setEventID(txID); setCoinID(id); setCoinSymbol(symbol); setEventDate(date); setEventType(type.toLowerCase()); setCoinAmount(amount); setEventFee(fee); setEventNotes(notes); setEventExchange(exchange); setCoinPair(pair); setCoinPrice(price); setEventFrom(from); setEventTo(to); setAction("update"); setModal(true) }} key={epoch() + txID}>
+									<View style={[styles.row, index % 2 ? null : { ...styles.rowEven, ...styles[`rowEven${theme}`] }]}>
+										<View style={[styles.column, styles.columnLeft]}>
+											<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellDate]} ellipsizeMode="tail">{date}</Text>
+											<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellType]} ellipsizeMode="tail">{type} - {symbol}</Text>
+										</View>
+										<View style={[styles.column, styles.columnRight]}>
+											<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellAmount]} ellipsizeMode="tail">{amount}</Text>
+											<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellNotes]} ellipsizeMode="tail" numberOfLines={1}>{notes}</Text>
+										</View>
 									</View>
-									<View style={[styles.column, styles.columnRight]}>
-										<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellAmount]} ellipsizeMode="tail">{amount}</Text>
-										<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellNotes]} ellipsizeMode="tail" numberOfLines={1}>{notes}</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-						);
-					});
+								</TouchableOpacity>
+							);
+						});
 
-					if(navigation.isFocused()) {
-						setActivityData(data);
+						if (navigation.isFocused()) {
+							setActivityData(data);
+						}
 					}
-				}
-			}).catch(error => {
-				console.log(arguments.callee.name + " - " + error);
-			});
+				}).catch(error => {
+					console.log(arguments.callee.name + " - " + error);
+				});
 		} else {
 			let data = await AsyncStorage.getItem("NoAPI");
-			if(validJSON(data)) {
+			if (validJSON(data)) {
 				data = JSON.parse(data);
 			} else {
 				data = {};
@@ -514,9 +517,9 @@ export default function Activity({ navigation }) {
 			let noAPI = new NoAPI(data, "mobile", AsyncStorage);
 			let events = noAPI.readActivity();
 
-			if(Object.keys(events).length === 0) {
-				if(navigation.isFocused()) {
-					setActivityData([<Text key="empty" style={[styles.loadingText, styles.headerText, styles[`headerText${theme}`], { marginLeft:20 }]}>No Activity Found...</Text>]);
+			if (Object.keys(events).length === 0) {
+				if (navigation.isFocused()) {
+					setActivityData([<Text key="empty" style={[styles.loadingText, styles.headerText, styles[`headerText${theme}`], { marginLeft: 20 }]}>No Activity Found...</Text>]);
 				}
 			} else {
 				events = sortActivity(events);
@@ -529,7 +532,7 @@ export default function Activity({ navigation }) {
 					index += 1;
 
 					let activity = events[txID];
-		
+
 					let id = activity.id;
 					let symbol = activity.symbol.toUpperCase();
 					let date = activity.date;
@@ -544,8 +547,8 @@ export default function Activity({ navigation }) {
 					let to = activity.to;
 
 					data.push(
-						<TouchableOpacity onPress={() => { setEventID(txID); setCoinID(id); setCoinSymbol(symbol); setEventDate(date); setEventType(type.toLowerCase()); setCoinAmount(amount); setEventFee(fee); setEventNotes(notes); setEventExchange(exchange); setCoinPair(pair); setCoinPrice(price); setEventFrom(from); setEventTo(to); setAction("update"); setModal(true)}} key={epoch() + txID}>
-							<View style={[styles.row, index % 2 ? null : {...styles.rowEven, ...styles[`rowEven${theme}`]}]}>
+						<TouchableOpacity onPress={() => { setEventID(txID); setCoinID(id); setCoinSymbol(symbol); setEventDate(date); setEventType(type.toLowerCase()); setCoinAmount(amount); setEventFee(fee); setEventNotes(notes); setEventExchange(exchange); setCoinPair(pair); setCoinPrice(price); setEventFrom(from); setEventTo(to); setAction("update"); setModal(true) }} key={epoch() + txID}>
+							<View style={[styles.row, index % 2 ? null : { ...styles.rowEven, ...styles[`rowEven${theme}`] }]}>
 								<View style={[styles.column, styles.columnLeft]}>
 									<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellDate]} ellipsizeMode="tail">{date}</Text>
 									<Text style={[styles.cellText, styles[`cellText${theme}`], styles.cellType]} ellipsizeMode="tail">{type} - {symbol}</Text>
@@ -559,7 +562,7 @@ export default function Activity({ navigation }) {
 					);
 				});
 
-				if(navigation.isFocused()) {
+				if (navigation.isFocused()) {
 					setActivityData(data);
 				}
 			}
@@ -569,11 +572,11 @@ export default function Activity({ navigation }) {
 	function sortActivity(events) {
 		let sorted = {};
 		let array = [];
-		for(let event in events) {
+		for (let event in events) {
 			array.push([event, events[event].time]);
 		}
 
-		array.sort(function(a, b) {
+		array.sort(function (a, b) {
 			return a[1] - b[1];
 		});
 
